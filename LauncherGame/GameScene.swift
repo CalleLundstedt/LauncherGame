@@ -16,12 +16,16 @@ class GameScene: SKScene {
     let arrow = SKSpriteNode(imageNamed: "arrow")
     let ground = SKSpriteNode(imageNamed: "ground")
     let cameraNode:SKCameraNode = SKCameraNode()
+    let power: CGFloat
     var mainCharNode:SKSpriteNode
     var mainChar:MainCharacter
     var playableRect: CGRect
     var lastUpdateTime: NSTimeInterval = 0.0, dt: NSTimeInterval = 0
-    var inAir: Bool = false, gameOver: Bool = false
+    var inAir: Bool = false, gameOver: Bool = false, pastMid: Bool = false
     var distance: CGFloat = 0.0
+    let rangeToMain = SKRange(constantValue: 0)
+    let distanceConstraint:SKConstraint, yConstraint: SKConstraint
+
     
     override init(size: CGSize) {
         let maxAspectRatio:CGFloat = 16.0/9.0
@@ -31,6 +35,9 @@ class GameScene: SKScene {
         
         mainChar = MainCharacter(name: "guy", mass: 5, restitution: 0.8, airResistance: 0.2)
         mainCharNode = SKSpriteNode(imageNamed: mainChar.name)
+        distanceConstraint = SKConstraint.distance(self.rangeToMain, toNode: mainCharNode)
+        yConstraint = SKConstraint.positionY(SKRange(constantValue: 0))
+        power = 1000
         
         super.init(size: size)
     }
@@ -62,7 +69,9 @@ class GameScene: SKScene {
         cameraNode.setScale(2)
         cameraNode.position = CGPoint(x: playableRect.size.width, y: CGRectGetMidY(playableRect))
         self.camera = cameraNode
+        cameraNode.constraints = [yConstraint]
         addChild(cameraNode)
+        
         
         arrow.anchorPoint = CGPointMake(0,0.5)
         arrow.position = mainCharNode.position
@@ -98,17 +107,17 @@ class GameScene: SKScene {
         }
         lastUpdateTime = currentTime
         
-
-        if mainCharNode.position.x > 1000 {
-            let moveCamera = SKAction.moveTo(CGPoint(x: mainCharNode.position.x, y: cameraNode.position.y), duration: dt)
-            cameraNode.runAction(moveCamera)
+        if mainCharNode.position.x > 1000 && !pastMid {
+            pastMid = true
+            cameraNode.constraints?.append(distanceConstraint)
         }
-       
-            if(inAir && !gameOver) {
+        
+        if(inAir && !gameOver) {
                 distance += (mainCharNode.physicsBody?.velocity.dx)!*CGFloat(dt)
-                if(mainCharNode.physicsBody?.velocity == CGVector(dx: 0,dy: 0)) {
+                if(mainCharNode.physicsBody!.velocity <= CGVector(dx: 30,dy: 10) && (mainCharNode.position.y <= 100)) {
                     gameOver = true
                     mainCharNode.physicsBody?.dynamic = false
+                    print("Gameover! Distance: \(distance)")
                 }
             }
     }
@@ -116,15 +125,21 @@ class GameScene: SKScene {
 
     
     func touchStart(touchPoint: CGPoint) {
-            let delta = arrow.position-touchPoint
-            var angle = delta.angle + π
+        let delta = arrow.position-touchPoint
+        var angle = delta.angle + π
         
-            if(angle < 0) {
-                angle += 2*π
-            }
+        if angle<0 {
+            angle += 2*π
+        }
         
-            arrow.zRotation = angle
-            addChild(arrow)
+        if angle > π/2 && angle < π {
+            angle = π/2
+        } else if angle > π {
+            angle = 0
+        }
+        
+        arrow.zRotation = angle
+        addChild(arrow)
     }
     
     func touchMoved(touchPoint: CGPoint) {
@@ -139,11 +154,15 @@ class GameScene: SKScene {
             let rotateAction = SKAction.rotateToAngle(angle, duration: 0)
             arrow.runAction(rotateAction)
         }
-
+        print(arrow.zRotation)
     }
     
     func touchStopped(touchPoint: CGPoint) {
+        
         if !inAir {
+            let angle = arrow.zRotation
+            let startingVelocity = CGVectorMake((π/2-angle)*power, angle*power)
+            
             arrow.removeFromParent()
             inAir = true
         
@@ -151,11 +170,11 @@ class GameScene: SKScene {
             mainCharNode.physicsBody?.mass = mainChar.mass
             mainCharNode.physicsBody?.restitution = mainChar.restitution
             mainCharNode.physicsBody?.linearDamping = mainChar.airResistance
-            mainCharNode.physicsBody?.velocity = CGVectorMake(touchPoint.x*2, touchPoint.y)
+            mainCharNode.physicsBody?.velocity = startingVelocity
             mainCharNode.physicsBody?.categoryBitMask = mainCategory
             mainCharNode.physicsBody?.collisionBitMask = groundCategory
         } else {
-            mainCharNode.physicsBody?.applyImpulse(CGVectorMake(10000, 10000))
+            mainCharNode.physicsBody?.applyImpulse(CGVectorMake(1000, 1000))
         }
     }
 }

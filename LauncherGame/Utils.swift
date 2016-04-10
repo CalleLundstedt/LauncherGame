@@ -36,6 +36,10 @@ func - (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x-right.x, y: left.y-right.y)
 }
 
+func <= (left: CGVector, right: CGVector) -> Bool {
+    return (left.dx <= right.dx) && (left.dy <= right.dy)
+}
+
 extension CGPoint {
     func length() -> CGFloat {
         return sqrt(x*x + y*y)
