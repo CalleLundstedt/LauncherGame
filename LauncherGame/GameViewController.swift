@@ -11,6 +11,8 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,9 +24,15 @@ class GameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         
         scene.scaleMode = .AspectFill
+        print(scene.size)
         skView.presentScene(scene)
     }
+    
     override func prefersStatusBarHidden() -> Bool {
         return true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return [UIInterfaceOrientationMask.LandscapeRight, UIInterfaceOrientationMask.LandscapeLeft]
     }
 }
