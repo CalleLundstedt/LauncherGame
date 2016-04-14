@@ -25,7 +25,7 @@ func shortestAngleBetween(angle1: CGFloat, angle2: CGFloat) -> CGFloat {
 }
 
 func randomAlpha() -> CGFloat {
-    return CGFloat(Float(arc4random()) / Float(UINT32_MAX))
+    return CGFloat(Float(arc4random_uniform(10) + 5) / 15.0)
 }
 
 func / (left: CGPoint, scalar: CGFloat) -> CGPoint {

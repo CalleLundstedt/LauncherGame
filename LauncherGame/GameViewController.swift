@@ -11,12 +11,13 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
+    @IBOutlet weak var distanceLabel: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scene = GameScene(size: CGSize(width: 2048, height: 1536))
+        let scene = GameScene(size: CGSize(width: 2048, height: 1536), label: distanceLabel, level: 0)
         let skView = self.view as! SKView
         
         skView.showsFPS = true
@@ -24,7 +25,6 @@ class GameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         
         scene.scaleMode = .AspectFill
-        print(scene.size)
         skView.presentScene(scene)
     }
     

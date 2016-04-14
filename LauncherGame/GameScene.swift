@@ -14,27 +14,32 @@ class GameScene: SKScene {
     let worldCategory: UInt32 = 1 << 1
     let groundCategory: UInt32 = 1 << 2
     
-    let arrow = SKSpriteNode(imageNamed: "arrow")
-    let ground = SKSpriteNode(imageNamed: "ground")
-    let cameraNode:SKCameraNode = SKCameraNode()
+    var currentLevel: Int
+    var distanceToWin:Int = 1000
     
+    let arrow = SKSpriteNode(imageNamed: "arrow")
+    var groundLayer = SKSpriteNode()
+    let cameraNode:SKCameraNode = SKCameraNode()
+    var distanceLabel: UILabel
     var backgroundLayer = SKSpriteNode()
+    var mainCharNode:SKSpriteNode
     
     var cameraPositionX: CGFloat = 0
     
     let weaponPower: CGFloat
-    var mainCharNode:SKSpriteNode
     var mainChar:MainCharacter
     var playableRect: CGRect
     var lastUpdateTime: NSTimeInterval = 0.0, dt: NSTimeInterval = 0
     var inAir: Bool = false, gameOver: Bool = false, pastMid: Bool = false
-    var distance: CGFloat = 0.0
-    let rangeToMain = SKRange(constantValue: 0)
-    let yRange = SKRange(constantValue: 768.0)
-    let yConstraint: SKConstraint, distanceConstraint: SKConstraint
-
+    var distance: Int
+    let cameraScale: CGFloat = 2
     
-    override init(size: CGSize) {
+    var rangeToMain = SKRange(constantValue: 0)
+    let yRange: SKRange
+    
+    let yConstraint: SKConstraint, distanceConstraint: SKConstraint
+    
+    init(size: CGSize, label: UILabel, level: Int) {
         let maxAspectRatio:CGFloat = 16.0/9.0
         let playableHeight = size.width / maxAspectRatio
         let playableMargin = (size.height-playableHeight)/2.0
@@ -42,8 +47,14 @@ class GameScene: SKScene {
         
         mainChar = MainCharacter(name: "guy", mass: 5, restitution: 0.8, airResistance: 0.2)
         mainCharNode = SKSpriteNode(imageNamed: mainChar.name)
+        yRange = SKRange(constantValue: CGRectGetMaxY(playableRect))
         distanceConstraint = SKConstraint.distance(rangeToMain, toNode: mainCharNode)
         yConstraint = SKConstraint.positionY(yRange)
+        
+        currentLevel = level
+        distance = 0
+        distanceLabel = label
+        
         weaponPower = 1000
         
         super.init(size: size)
@@ -54,6 +65,13 @@ class GameScene: SKScene {
     }
 
     override func didMoveToView(view: SKView) {
+        
+        let config = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Levels",ofType: "plist")!)!
+        let levels = config["Levels"] as! [[String:AnyObject]]
+        if currentLevel >= levels.count {
+            currentLevel = 0
+        }
+        distanceToWin = (levels[currentLevel]["Distance"] as? Int)!
         
         backgroundColor = SKColor.init(red: 75/255, green: 185/255, blue: 1, alpha: 1)
         
@@ -66,25 +84,24 @@ class GameScene: SKScene {
         mainCharNode.zPosition = 10
         addChild(mainCharNode)
         
-        ground.position = CGPoint(x: CGRectGetMinX(playableRect)+playableRect.size.width/2,
-            y: CGRectGetMinY(playableRect))
-        ground.size.width = 60000
-        ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.frame.size)
-        ground.physicsBody?.categoryBitMask = groundCategory
-        ground.physicsBody?.dynamic = false
-        ground.zPosition = 9
-        addChild(ground)
+        groundLayer = createGround()
+        groundLayer.position = CGPoint(x: 0, y: 100)
+        addChild(groundLayer)
+        
+        rangeToMain = SKRange(constantValue: mainCharNode.position.x)
         
         backgroundLayer.zPosition = -1
         backgroundLayer.position = CGPoint(x:0,y:0)
         addChild(backgroundLayer)
         
-        
-        cameraNode.setScale(2)
-        cameraNode.position = CGPoint(x: CGRectGetMaxX(playableRect), y: CGRectGetMidY(playableRect))
+        cameraNode.setScale(cameraScale)
+        cameraNode.position = CGPoint(x: CGRectGetMaxX(playableRect), y: CGRectGetMaxY(playableRect))
         self.camera = cameraNode
         addChild(cameraNode)
+        cameraNode.constraints = [yConstraint]
         cameraPositionX = cameraNode.position.x
+        
+        print(cameraNode.position.y)
         
         arrow.anchorPoint = CGPointMake(0,0.5)
         arrow.position = mainCharNode.position
@@ -120,72 +137,79 @@ class GameScene: SKScene {
         }
         lastUpdateTime = currentTime
         
-        
-        
         if mainCharNode.position.x > CGRectGetMaxX(playableRect) && !pastMid {
             pastMid = true
-            cameraNode.constraints = [distanceConstraint]
+            cameraNode.constraints?.append(distanceConstraint)
+        }
+        
+        if pastMid {
+            createClouds()
         }
         
         if(inAir && !gameOver) {
-            distance += (mainCharNode.physicsBody?.velocity.dx)!*CGFloat(dt)
-            createClouds()
-            if(mainCharNode.physicsBody!.velocity <= CGVector(dx: 30, dy: 10) && mainCharNode.position.y <= 100) {
+            distance += Int((mainCharNode.physicsBody?.velocity.dx)!*CGFloat(dt))
+            if(mainCharNode.physicsBody!.velocity <= CGVector(dx: 30, dy: 10) && mainCharNode.position.y <= 320) {
                 gameOver = true
                 mainCharNode.physicsBody!.dynamic = false
                 print("Game over! Distance: \(distance)")
             }
+            if distance >= distanceToWin {
+                distanceLabel.text = "\(distance)"
+                let newScene = GameScene(size:size, label: distanceLabel, level: currentLevel+1)
+                view!.presentScene(newScene, transition: SKTransition.flipVerticalWithDuration(0.5))
+            }
         }
-        
-        if cameraPositionX < cameraNode.position.x {
-            cameraPositionX = cameraNode.position.x
-            moveBackground(cameraNode.position.x - cameraPositionX)
-        }
+        distanceLabel.text = "\(distance)"
+        moveGround()
     }
     
 
     
     func touchStart(touchPoint: CGPoint) {
-        let delta = arrow.position-touchPoint
-        var angle = delta.angle + π
-        
-        if angle<0 {
-            angle += 2*π
+        if !inAir {
+            let delta = arrow.position-touchPoint
+            var angle = delta.angle + π
+            
+            if angle<0 {
+                angle += 2*π
+            }
+            
+            if angle > π/2 && angle < π {
+                angle = π/2
+            } else if angle > π {
+                angle = 0
+            }
+            
+            arrow.zRotation = angle
+            addChild(arrow)
         }
-        
-        if angle > π/2 && angle < π {
-            angle = π/2
-        } else if angle > π {
-            angle = 0
-        }
-        
-        arrow.zRotation = angle
-        addChild(arrow)
     }
     
     
     func touchMoved(touchPoint: CGPoint) {
-        let delta = arrow.position-touchPoint
-        var angle = delta.angle + π
-        
-        if(angle < 0) {
-            angle += 2*π
-        }
-        
-        if(angle <= π/2) {
-            let rotateAction = SKAction.rotateToAngle(angle, duration: 0)
-            arrow.runAction(rotateAction)
+        if !inAir {
+            let delta = arrow.position-touchPoint
+            var angle = delta.angle + π
+            
+            if(angle < 0) {
+                angle += 2*π
+            }
+            
+            if(angle <= π/2) {
+                let rotateAction = SKAction.rotateToAngle(angle, duration: 0)
+                arrow.runAction(rotateAction)
+            }
         }
     }
     
     func touchStopped(touchPoint: CGPoint) {
         
         if !inAir {
+            inAir = true
+            
             let angle = arrow.zRotation
             let startingVelocity = CGVectorMake((π/2-angle)*weaponPower, angle*weaponPower)
-            
             arrow.removeFromParent()
-            inAir = true
         
             mainCharNode.physicsBody = SKPhysicsBody(circleOfRadius: mainCharNode.size.width/2)
             mainCharNode.physicsBody?.mass = mainChar.mass
@@ -200,21 +224,39 @@ class GameScene: SKScene {
     }
     
     func createClouds() {
-        if arc4random_uniform(1000) <= 20 {
+        if arc4random_uniform(1000) <= 40 {
             let cloud = SKSpriteNode(imageNamed: "cloud")
             cloud.name = "cloud"
             cloud.alpha = randomAlpha()
-            cloud.position.x = mainCharNode.position.x + 2000
+            cloud.position.x = mainCharNode.position.x + playableRect.size.width + cloud.size.width
             cloud.position.y = CGFloat(arc4random_uniform(1080) + 200)
             backgroundLayer.addChild(cloud)
         }
     }
     
-    func moveBackground(moved: CGFloat) {
-        backgroundLayer.enumerateChildNodesWithName("cloud") {
-            node, _ in
-            node.position.x += moved
+    func createGround() -> SKSpriteNode {
+        let groundLayer = SKSpriteNode()
+        for i in 0...4 {
+            let ground = SKSpriteNode(imageNamed: "ground")
+            ground.position = CGPoint(x: CGRectGetMinX(playableRect)+CGFloat(i)*ground.size.width, y: CGRectGetMinY(playableRect))
+            ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.size)
+            ground.physicsBody?.categoryBitMask = groundCategory
+            ground.physicsBody?.dynamic = false
+            ground.zPosition = 9
+            ground.anchorPoint = CGPoint(x: 0, y: 0)
+            ground.name = "ground"
+            groundLayer.addChild(ground)
         }
+        return groundLayer
+    }
     
+    func moveGround() {
+        groundLayer.enumerateChildNodesWithName("ground") {
+            node, _ in
+            let ground = node as! SKSpriteNode
+            if ground.position.x < self.mainCharNode.position.x-self.playableRect.width*self.cameraScale {
+                ground.position.x += 4*ground.size.width
+            }
+        }
     }
 }

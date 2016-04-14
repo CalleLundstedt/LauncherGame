@@ -3,12 +3,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Main View Controller-->
+        <!--View Controller-->
         <scene sceneID="wsP-KH-Mgc">
             <objects>
-                <viewController id="gHF-Dy-DcW" customClass="MainViewController" customModule="LauncherGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gHF-Dy-DcW" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LKo-Vt-ceE"/>
                         <viewControllerLayoutGuide type="bottom" id="tzC-FC-nhn"/>
@@ -17,27 +18,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lifted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bma-SQ-rgf">
-                                <rect key="frame" x="278" y="28" width="44" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vz6-aN-u41">
+                                <rect key="frame" x="282" y="478" width="36" height="30"/>
+                                <state key="normal" title="Stats"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lifted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4P3-Jx-1cn">
+                                <rect key="frame" x="278" y="52" width="44" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8e-S6-xY4">
-                                <rect key="frame" x="283" y="337" width="34" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ky-GG-Nhe">
+                                <rect key="frame" x="283" y="420" width="34" height="30"/>
                                 <state key="normal" title="Start"/>
                                 <connections>
-                                    <action selector="startTheGame:" destination="gHF-Dy-DcW" eventType="touchUpInside" id="IVE-hY-3en"/>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="fgV-QM-233"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" id="rcd-yS-AvB"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Bma-SQ-rgf" firstAttribute="centerY" secondItem="B2p-eP-4rE" secondAttribute="centerY" constant="-261.5" id="FYA-i4-oQ4"/>
-                            <constraint firstItem="Bma-SQ-rgf" firstAttribute="centerX" secondItem="B2p-eP-4rE" secondAttribute="centerX" id="Ogs-Hj-j1d"/>
-                            <constraint firstItem="T8e-S6-xY4" firstAttribute="top" secondItem="Bma-SQ-rgf" secondAttribute="bottom" constant="288" id="d67-8g-GjL"/>
-                            <constraint firstItem="T8e-S6-xY4" firstAttribute="centerX" secondItem="B2p-eP-4rE" secondAttribute="centerX" id="d7b-mB-dR1"/>
+                            <constraint firstItem="2ky-GG-Nhe" firstAttribute="centerX" secondItem="B2p-eP-4rE" secondAttribute="centerX" id="ZS0-bB-JUb"/>
+                            <constraint firstItem="vz6-aN-u41" firstAttribute="centerX" secondItem="B2p-eP-4rE" secondAttribute="centerX" id="dgm-8h-dpF"/>
+                            <constraint firstItem="vz6-aN-u41" firstAttribute="top" secondItem="2ky-GG-Nhe" secondAttribute="bottom" constant="28" id="eLt-WH-2hl"/>
+                            <constraint firstItem="tzC-FC-nhn" firstAttribute="top" secondItem="2ky-GG-Nhe" secondAttribute="bottom" constant="150" id="fsn-cT-4gK"/>
+                            <constraint firstItem="4P3-Jx-1cn" firstAttribute="centerX" secondItem="B2p-eP-4rE" secondAttribute="centerX" id="gmT-sJ-ocv"/>
+                            <constraint firstItem="4P3-Jx-1cn" firstAttribute="top" secondItem="LKo-Vt-ceE" secondAttribute="bottom" constant="32" id="l3g-IS-uEV"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -56,11 +62,36 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0JU-Pw-vGg">
+                                <rect key="frame" x="425" y="20" width="72" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DHi-FC-EVu">
+                                <rect key="frame" x="569.5" y="20" width="10.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="0JU-Pw-vGg" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" id="9se-oK-Js8"/>
+                            <constraint firstItem="0JU-Pw-vGg" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" id="m2F-GQ-3hD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0JU-Pw-vGg" secondAttribute="trailing" constant="83" id="ntd-Fk-n30"/>
+                            <constraint firstItem="DHi-FC-EVu" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" id="o8b-FU-aIh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="DHi-FC-EVu" secondAttribute="trailing" id="vNT-Y2-CIg"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="distanceLabel" destination="DHi-FC-EVu" id="kr5-0x-qvX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="245" y="285"/>
         </scene>
     </scenes>
 </document>
