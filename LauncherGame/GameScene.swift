@@ -19,9 +19,10 @@ class GameScene: SKScene {
     
     let arrow = SKSpriteNode(imageNamed: "arrow")
     var groundLayer = SKSpriteNode()
+    var backgroundLayer = SKSpriteNode()
+    var houseLayer = SKSpriteNode()
     let cameraNode:SKCameraNode = SKCameraNode()
     var distanceLabel: UILabel
-    var backgroundLayer = SKSpriteNode()
     var mainCharNode:SKSpriteNode
     
     var cameraPositionX: CGFloat = 0
@@ -32,9 +33,9 @@ class GameScene: SKScene {
     var lastUpdateTime: NSTimeInterval = 0.0, dt: NSTimeInterval = 0
     var inAir: Bool = false, gameOver: Bool = false, pastMid: Bool = false
     var distance: Int
-    let cameraScale: CGFloat = 2
+    var mainCharStartingPoint: CGFloat = 0
     
-    var rangeToMain = SKRange(constantValue: 0)
+    var rangeToMain: SKRange
     let yRange: SKRange
     
     let yConstraint: SKConstraint, distanceConstraint: SKConstraint
@@ -47,7 +48,8 @@ class GameScene: SKScene {
         
         mainChar = MainCharacter(name: "guy", mass: 5, restitution: 0.8, airResistance: 0.2)
         mainCharNode = SKSpriteNode(imageNamed: mainChar.name)
-        yRange = SKRange(constantValue: CGRectGetMaxY(playableRect))
+        yRange = SKRange(constantValue: CGRectGetMidY(playableRect))
+        rangeToMain = SKRange(constantValue: 0)
         distanceConstraint = SKConstraint.distance(rangeToMain, toNode: mainCharNode)
         yConstraint = SKConstraint.positionY(yRange)
         
@@ -66,6 +68,8 @@ class GameScene: SKScene {
 
     override func didMoveToView(view: SKView) {
         
+        
+        
         let config = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Levels",ofType: "plist")!)!
         let levels = config["Levels"] as! [[String:AnyObject]]
         if currentLevel >= levels.count {
@@ -80,13 +84,18 @@ class GameScene: SKScene {
         self.physicsBody?.categoryBitMask = worldCategory
         
         mainCharNode.position = CGPoint(x: CGRectGetMinX(playableRect)+mainCharNode.size.width,
-            y: CGRectGetMinY(playableRect)+mainCharNode.size.height*2)
-        mainCharNode.zPosition = 10
+            y: CGRectGetMinY(playableRect)+mainCharNode.size.height)
+        mainCharNode.zPosition = 11
+        mainCharStartingPoint = mainCharNode.position.x
         addChild(mainCharNode)
         
         groundLayer = createGround()
-        groundLayer.position = CGPoint(x: 0, y: 100)
+        groundLayer.anchorPoint = CGPoint(x: 0, y: 0)
+        groundLayer.position = CGPoint(x: 0, y: CGRectGetMinX(playableRect))
         addChild(groundLayer)
+        
+        houseLayer = createHouses()
+        addChild(houseLayer)
         
         rangeToMain = SKRange(constantValue: mainCharNode.position.x)
         
@@ -94,16 +103,15 @@ class GameScene: SKScene {
         backgroundLayer.position = CGPoint(x:0,y:0)
         addChild(backgroundLayer)
         
-        cameraNode.setScale(cameraScale)
-        cameraNode.position = CGPoint(x: CGRectGetMaxX(playableRect), y: CGRectGetMaxY(playableRect))
+        cameraNode.position = CGPoint(x: CGRectGetMidX(playableRect), y: CGRectGetMinY(playableRect))
         self.camera = cameraNode
         addChild(cameraNode)
         cameraNode.constraints = [yConstraint]
         cameraPositionX = cameraNode.position.x
         
-        print(cameraNode.position.y)
         
         arrow.anchorPoint = CGPointMake(0,0.5)
+        arrow.zPosition = 10
         arrow.position = mainCharNode.position
     }
     
@@ -137,9 +145,9 @@ class GameScene: SKScene {
         }
         lastUpdateTime = currentTime
         
-        if mainCharNode.position.x > CGRectGetMaxX(playableRect) && !pastMid {
+        if mainCharNode.position.x > CGRectGetMidX(playableRect) && !pastMid {
             pastMid = true
-            cameraNode.constraints?.append(distanceConstraint)
+            cameraNode.constraints!.append(distanceConstraint)
         }
         
         if pastMid {
@@ -147,7 +155,7 @@ class GameScene: SKScene {
         }
         
         if(inAir && !gameOver) {
-            distance += Int((mainCharNode.physicsBody?.velocity.dx)!*CGFloat(dt))
+            distance = Int(mainCharNode.position.x - mainCharStartingPoint)
             if(mainCharNode.physicsBody!.velocity <= CGVector(dx: 30, dy: 10) && mainCharNode.position.y <= 320) {
                 gameOver = true
                 mainCharNode.physicsBody!.dynamic = false
@@ -236,10 +244,10 @@ class GameScene: SKScene {
     
     func createGround() -> SKSpriteNode {
         let groundLayer = SKSpriteNode()
-        for i in 0...4 {
+        for i in 0...7 {
             let ground = SKSpriteNode(imageNamed: "ground")
-            ground.position = CGPoint(x: CGRectGetMinX(playableRect)+CGFloat(i)*ground.size.width, y: CGRectGetMinY(playableRect))
-            ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.size)
+            ground.position = CGPoint(x: CGRectGetMinX(playableRect)+CGFloat(i)*ground.size.width, y: CGRectGetMinY(playableRect)-ground.size.height)
+            ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.frame.size, center: CGPoint(x: ground.size.width/2, y: ground.size.height/2))
             ground.physicsBody?.categoryBitMask = groundCategory
             ground.physicsBody?.dynamic = false
             ground.zPosition = 9
@@ -250,12 +258,26 @@ class GameScene: SKScene {
         return groundLayer
     }
     
+    func createHouses() -> SKSpriteNode {
+        let houseLayer = SKSpriteNode()
+        for i in 0...3 {
+            let house = SKSpriteNode(imageNamed: "houses")
+            house.anchorPoint = CGPoint(x: 0, y: 0)
+            house.position = CGPoint(x: CGRectGetMinX(playableRect)+CGFloat(i)*house.size.width,
+                                     y: CGRectGetMinY(playableRect))
+            house.zPosition = 9
+            house.name = "house"
+            houseLayer.addChild(house)
+        }
+        return houseLayer
+    }
+    
     func moveGround() {
         groundLayer.enumerateChildNodesWithName("ground") {
             node, _ in
             let ground = node as! SKSpriteNode
-            if ground.position.x < self.mainCharNode.position.x-self.playableRect.width*self.cameraScale {
-                ground.position.x += 4*ground.size.width
+            if ground.position.x < self.mainCharNode.position.x-self.playableRect.width {
+                ground.position.x += 7*ground.size.width
             }
         }
     }

@@ -6,15 +6,15 @@
 	<array>
 		<dict>
 			<key>Distance</key>
-			<integer>5000</integer>
-		</dict>
-		<dict>
-			<key>Distance</key>
 			<integer>10000</integer>
 		</dict>
 		<dict>
 			<key>Distance</key>
 			<integer>15000</integer>
+		</dict>
+		<dict>
+			<key>Distance</key>
+			<integer>20000</integer>
 		</dict>
 	</array>
 </dict>
