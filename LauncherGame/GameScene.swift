@@ -10,10 +10,6 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    let mainCategory: UInt32 = 1 << 0
-    let worldCategory: UInt32 = 1 << 1
-    let groundCategory: UInt32 = 1 << 2
-    
     var currentLevel: Int
     var distanceToWin:Int = 1000
     
@@ -46,9 +42,9 @@ class GameScene: SKScene {
         let playableMargin = (size.height-playableHeight)/2.0
         playableRect = CGRect(x: 0, y: playableMargin, width: size.width, height: playableHeight)
         
-        mainChar = MainCharacter(name: "guy", mass: 5, restitution: 0.8, airResistance: 0.2)
+        mainChar = MainCharacter(name: "guy", mass: 4, restitution: 0.8, airResistance: 0.2)
         mainCharNode = SKSpriteNode(imageNamed: mainChar.name)
-        yRange = SKRange(constantValue: CGRectGetMidY(playableRect))
+        yRange = SKRange(constantValue: CGRectGetMinY(playableRect))
         rangeToMain = SKRange(constantValue: 0)
         distanceConstraint = SKConstraint.distance(rangeToMain, toNode: mainCharNode)
         yConstraint = SKConstraint.positionY(yRange)
@@ -81,7 +77,6 @@ class GameScene: SKScene {
         
         self.physicsWorld.gravity = CGVectorMake(0, -6)
         self.physicsBody = physicsBody
-        self.physicsBody?.categoryBitMask = worldCategory
         
         mainCharNode.position = CGPoint(x: CGRectGetMinX(playableRect)+mainCharNode.size.width,
             y: CGRectGetMinY(playableRect)+mainCharNode.size.height)
@@ -103,7 +98,7 @@ class GameScene: SKScene {
         backgroundLayer.position = CGPoint(x:0,y:0)
         addChild(backgroundLayer)
         
-        cameraNode.position = CGPoint(x: CGRectGetMidX(playableRect), y: CGRectGetMinY(playableRect))
+        cameraNode.position = CGPoint(x: CGRectGetMidX(playableRect), y: CGRectGetMidY(playableRect))
         self.camera = cameraNode
         addChild(cameraNode)
         cameraNode.constraints = [yConstraint]
@@ -168,7 +163,7 @@ class GameScene: SKScene {
             }
         }
         distanceLabel.text = "\(distance)"
-        moveGround()
+        scrollBackground()
     }
     
 
@@ -224,8 +219,6 @@ class GameScene: SKScene {
             mainCharNode.physicsBody?.restitution = mainChar.restitution
             mainCharNode.physicsBody?.linearDamping = mainChar.airResistance
             mainCharNode.physicsBody?.velocity = startingVelocity
-            mainCharNode.physicsBody?.categoryBitMask = mainCategory
-            mainCharNode.physicsBody?.collisionBitMask = groundCategory
         } else {
             mainCharNode.physicsBody?.applyImpulse(CGVectorMake(1000, 1000))
         }
@@ -237,7 +230,7 @@ class GameScene: SKScene {
             cloud.name = "cloud"
             cloud.alpha = randomAlpha()
             cloud.position.x = mainCharNode.position.x + playableRect.size.width + cloud.size.width
-            cloud.position.y = CGFloat(arc4random_uniform(1080) + 200)
+            cloud.position.y = CGFloat(arc4random_uniform(UInt32(playableRect.size.height)) + UInt32(playableRect.size.height))
             backgroundLayer.addChild(cloud)
         }
     }
@@ -248,7 +241,6 @@ class GameScene: SKScene {
             let ground = SKSpriteNode(imageNamed: "ground")
             ground.position = CGPoint(x: CGRectGetMinX(playableRect)+CGFloat(i)*ground.size.width, y: CGRectGetMinY(playableRect)-ground.size.height)
             ground.physicsBody = SKPhysicsBody(rectangleOfSize: ground.frame.size, center: CGPoint(x: ground.size.width/2, y: ground.size.height/2))
-            ground.physicsBody?.categoryBitMask = groundCategory
             ground.physicsBody?.dynamic = false
             ground.zPosition = 9
             ground.anchorPoint = CGPoint(x: 0, y: 0)
@@ -262,9 +254,9 @@ class GameScene: SKScene {
         let houseLayer = SKSpriteNode()
         for i in 0...3 {
             let house = SKSpriteNode(imageNamed: "houses")
-            house.anchorPoint = CGPoint(x: 0, y: 0)
+            house.anchorPoint = CGPoint(x: 1, y: 1)
             house.position = CGPoint(x: CGRectGetMinX(playableRect)+CGFloat(i)*house.size.width,
-                                     y: CGRectGetMinY(playableRect))
+                                     y: CGRectGetMinY(playableRect)+house.size.height)
             house.zPosition = 9
             house.name = "house"
             houseLayer.addChild(house)
@@ -272,12 +264,20 @@ class GameScene: SKScene {
         return houseLayer
     }
     
-    func moveGround() {
+    func scrollBackground() {
         groundLayer.enumerateChildNodesWithName("ground") {
             node, _ in
             let ground = node as! SKSpriteNode
             if ground.position.x < self.mainCharNode.position.x-self.playableRect.width {
                 ground.position.x += 7*ground.size.width
+            }
+        }
+        
+        houseLayer.enumerateChildNodesWithName("house") {
+            node, _ in
+            let house = node as! SKSpriteNode
+            if house.position.x < self.mainCharNode.position.x-self.playableRect.width {
+                house.position.x += 3*house.size.width
             }
         }
     }

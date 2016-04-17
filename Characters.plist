@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Classes</key>
+	<dict>
+		<key>Newbie</key>
+		<dict>
+			<key>AirResistance</key>
+			<real>0.4</real>
+			<key>Restitution</key>
+			<real>0.8</real>
+			<key>Mass</key>
+			<integer>4</integer>
+			<key>Unlocked</key>
+			<true/>
+		</dict>
+		<key>Fitness</key>
+		<dict>
+			<key>AirResistance</key>
+			<real>0.2</real>
+			<key>Restitution</key>
+			<real>0.5</real>
+			<key>Mass</key>
+			<integer>6</integer>
+			<key>Unlocked</key>
+			<false/>
+		</dict>
+	</dict>
+</dict>
+</plist>

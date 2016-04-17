@@ -6,11 +6,11 @@
 	<array>
 		<dict>
 			<key>Distance</key>
-			<integer>10000</integer>
+			<integer>100000</integer>
 		</dict>
 		<dict>
 			<key>Distance</key>
-			<integer>15000</integer>
+			<integer>15</integer>
 		</dict>
 		<dict>
 			<key>Distance</key>

@@ -22,4 +22,7 @@ class MainCharacter {
         self.restitution = restitution
         self.airResistance = airResistance
     }
+    
+    
 }
+
