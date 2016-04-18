@@ -41,8 +41,9 @@ class GameScene: SKScene {
         let playableHeight = size.width / maxAspectRatio
         let playableMargin = (size.height-playableHeight)/2.0
         playableRect = CGRect(x: 0, y: playableMargin, width: size.width, height: playableHeight)
-        
-        mainChar = MainCharacter(name: "guy", mass: 4, restitution: 0.8, airResistance: 0.2)
+        let main = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Characters", ofType: "plist")!)!
+        let mainClass = main["Classes"] as! NSDictionary
+        mainChar = MainCharacter(dictionary: mainClass["Newbie"] as! NSDictionary)
         mainCharNode = SKSpriteNode(imageNamed: mainChar.name)
         yRange = SKRange(constantValue: CGRectGetMinY(playableRect))
         rangeToMain = SKRange(constantValue: 0)
@@ -79,7 +80,7 @@ class GameScene: SKScene {
         self.physicsBody = physicsBody
         
         mainCharNode.position = CGPoint(x: CGRectGetMinX(playableRect)+mainCharNode.size.width,
-            y: CGRectGetMinY(playableRect)+mainCharNode.size.height)
+            y: CGRectGetMinY(playableRect))
         mainCharNode.zPosition = 11
         mainCharStartingPoint = mainCharNode.position.x
         addChild(mainCharNode)

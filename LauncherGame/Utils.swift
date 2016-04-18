@@ -44,6 +44,10 @@ func <= (left: CGVector, right: CGVector) -> Bool {
     return (left.dx <= right.dx) && (left.dy <= right.dy)
 }
 
+func saveToPlist(distance: Int, won: Bool) {
+    
+}
+
 extension CGPoint {
     func length() -> CGFloat {
         return sqrt(x*x + y*y)

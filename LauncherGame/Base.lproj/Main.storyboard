@@ -21,6 +21,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vz6-aN-u41">
                                 <rect key="frame" x="282" y="478" width="36" height="30"/>
                                 <state key="normal" title="Stats"/>
+                                <connections>
+                                    <segue destination="Qrf-Fh-fwH" kind="show" id="Jqe-e2-3Hl"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lifted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4P3-Jx-1cn">
                                 <rect key="frame" x="278" y="52" width="44" height="21"/>
@@ -50,6 +53,72 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OgR-UE-PZ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-475" y="311"/>
+        </scene>
+        <!--Stats View Controller-->
+        <scene sceneID="Tzz-U4-Vji">
+            <objects>
+                <viewController id="Qrf-Fh-fwH" customClass="StatsViewController" customModule="LauncherGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HZY-hl-jIE"/>
+                        <viewControllerLayoutGuide type="bottom" id="O9J-xl-79W"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="035-aa-BDo">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Statistics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fpz-0H-Emr">
+                                <rect key="frame" x="265" y="28" width="71" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total distance travelled:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfe-Jd-Jk3">
+                                <rect key="frame" x="20" y="97" width="182" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="012-ab-Ac1">
+                                <rect key="frame" x="569" y="97" width="11" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of failed launches:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ed8-nA-S7g">
+                                <rect key="frame" x="20" y="126" width="206" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkx-6E-fjL">
+                                <rect key="frame" x="569" y="126" width="11" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Fpz-0H-Emr" firstAttribute="centerX" secondItem="035-aa-BDo" secondAttribute="centerX" id="3gv-fO-whX"/>
+                            <constraint firstItem="ed8-nA-S7g" firstAttribute="top" secondItem="vfe-Jd-Jk3" secondAttribute="bottom" constant="8" id="5fp-PR-HQf"/>
+                            <constraint firstItem="pkx-6E-fjL" firstAttribute="top" secondItem="012-ab-Ac1" secondAttribute="bottom" constant="8" id="7Vv-PZ-u7j"/>
+                            <constraint firstItem="vfe-Jd-Jk3" firstAttribute="top" secondItem="Fpz-0H-Emr" secondAttribute="bottom" constant="48" id="CB3-7N-Wkp"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="ed8-nA-S7g" secondAttribute="leading" id="QYM-TU-l7R"/>
+                            <constraint firstItem="012-ab-Ac1" firstAttribute="top" secondItem="Fpz-0H-Emr" secondAttribute="bottom" constant="48" id="UeI-jY-Zn0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="012-ab-Ac1" secondAttribute="trailing" id="g04-Qu-Y1J"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="pkx-6E-fjL" secondAttribute="trailing" id="nly-w3-icM"/>
+                            <constraint firstItem="Fpz-0H-Emr" firstAttribute="top" secondItem="HZY-hl-jIE" secondAttribute="bottom" constant="8" id="npE-A2-eSn"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="vfe-Jd-Jk3" secondAttribute="leading" id="sBL-ZU-zMQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="distanceLabel" destination="012-ab-Ac1" id="RZO-Or-R1h"/>
+                        <outlet property="failureLabel" destination="pkx-6E-fjL" id="Qg2-H2-X6H"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QKY-Yq-WCl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-85" y="1052"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -91,7 +160,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="245" y="285"/>
+            <point key="canvasLocation" x="347" y="144"/>
         </scene>
     </scenes>
 </document>

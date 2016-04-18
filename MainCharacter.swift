@@ -23,6 +23,11 @@ class MainCharacter {
         self.airResistance = airResistance
     }
     
-    
+    init(dictionary: NSDictionary) {
+        self.name = "newbie"
+        self.mass = dictionary["Mass"] as! CGFloat
+        self.restitution = dictionary["Restitution"] as! CGFloat
+        self.airResistance = dictionary["AirResistance"] as! CGFloat
+    }
 }
 

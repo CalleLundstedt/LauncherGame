@@ -7,7 +7,7 @@
 		<key>Newbie</key>
 		<dict>
 			<key>AirResistance</key>
-			<real>0.4</real>
+			<real>0.3</real>
 			<key>Restitution</key>
 			<real>0.8</real>
 			<key>Mass</key>
