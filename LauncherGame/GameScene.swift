@@ -42,10 +42,10 @@ class GameScene: SKScene {
         let playableMargin = (size.height-playableHeight)/2.0
         playableRect = CGRect(x: 0, y: playableMargin, width: size.width, height: playableHeight)
         let main = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Characters", ofType: "plist")!)!
-        let mainClass = main["Classes"] as! NSDictionary
-        mainChar = MainCharacter(dictionary: mainClass["Newbie"] as! NSDictionary)
+        let mainClass = main["Classes"] as! NSArray
+        mainChar = MainCharacter(dictionary: mainClass[0] as! NSDictionary)
         mainCharNode = SKSpriteNode(imageNamed: mainChar.name)
-        yRange = SKRange(constantValue: CGRectGetMinY(playableRect))
+        yRange = SKRange(constantValue: CGRectGetMidY(playableRect)-250)
         rangeToMain = SKRange(constantValue: 0)
         distanceConstraint = SKConstraint.distance(rangeToMain, toNode: mainCharNode)
         yConstraint = SKConstraint.positionY(yRange)
@@ -65,8 +65,7 @@ class GameScene: SKScene {
 
     override func didMoveToView(view: SKView) {
         
-        
-        
+        print("hej")
         let config = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Levels",ofType: "plist")!)!
         let levels = config["Levels"] as! [[String:AnyObject]]
         if currentLevel >= levels.count {
@@ -80,7 +79,7 @@ class GameScene: SKScene {
         self.physicsBody = physicsBody
         
         mainCharNode.position = CGPoint(x: CGRectGetMinX(playableRect)+mainCharNode.size.width,
-            y: CGRectGetMinY(playableRect))
+            y: CGRectGetMinY(playableRect)+mainCharNode.size.height/2)
         mainCharNode.zPosition = 11
         mainCharStartingPoint = mainCharNode.position.x
         addChild(mainCharNode)
@@ -99,12 +98,11 @@ class GameScene: SKScene {
         backgroundLayer.position = CGPoint(x:0,y:0)
         addChild(backgroundLayer)
         
-        cameraNode.position = CGPoint(x: CGRectGetMidX(playableRect), y: CGRectGetMidY(playableRect))
+        cameraNode.position = CGPoint(x: CGRectGetMidX(playableRect), y: CGRectGetMidY(playableRect)-mainCharNode.size.height)
         self.camera = cameraNode
         addChild(cameraNode)
         cameraNode.constraints = [yConstraint]
         cameraPositionX = cameraNode.position.x
-        
         
         arrow.anchorPoint = CGPointMake(0,0.5)
         arrow.zPosition = 10
@@ -215,7 +213,7 @@ class GameScene: SKScene {
             let startingVelocity = CGVectorMake((π/2-angle)*weaponPower, angle*weaponPower)
             arrow.removeFromParent()
         
-            mainCharNode.physicsBody = SKPhysicsBody(circleOfRadius: mainCharNode.size.width/2)
+            mainCharNode.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: mainChar.name), size: mainCharNode.size)
             mainCharNode.physicsBody?.mass = mainChar.mass
             mainCharNode.physicsBody?.restitution = mainChar.restitution
             mainCharNode.physicsBody?.linearDamping = mainChar.airResistance

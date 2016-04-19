@@ -11,6 +11,8 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
+    var currentClass: String = ""
+    
     @IBOutlet weak var distanceLabel: UILabel!
     
     

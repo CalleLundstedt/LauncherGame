@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="wsP-KH-Mgc">
             <objects>
-                <viewController id="gHF-Dy-DcW" sceneMemberID="viewController">
+                <viewController id="gHF-Dy-DcW" customClass="MainViewController" customModule="LauncherGame" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LKo-Vt-ceE"/>
                         <viewControllerLayoutGuide type="bottom" id="tzC-FC-nhn"/>
@@ -34,8 +34,12 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ky-GG-Nhe">
                                 <rect key="frame" x="283" y="420" width="34" height="30"/>
                                 <state key="normal" title="Start"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j4v-XP-7dS">
+                                <rect key="frame" x="269" y="356" width="62" height="30"/>
+                                <state key="normal" title="Continue"/>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="rcd-yS-AvB"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" identifier="continueGame" id="Kwa-1X-kUg"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -45,14 +49,20 @@
                             <constraint firstItem="vz6-aN-u41" firstAttribute="centerX" secondItem="B2p-eP-4rE" secondAttribute="centerX" id="dgm-8h-dpF"/>
                             <constraint firstItem="vz6-aN-u41" firstAttribute="top" secondItem="2ky-GG-Nhe" secondAttribute="bottom" constant="28" id="eLt-WH-2hl"/>
                             <constraint firstItem="tzC-FC-nhn" firstAttribute="top" secondItem="2ky-GG-Nhe" secondAttribute="bottom" constant="150" id="fsn-cT-4gK"/>
+                            <constraint firstItem="j4v-XP-7dS" firstAttribute="centerX" secondItem="B2p-eP-4rE" secondAttribute="centerX" id="gY6-cq-0VW"/>
                             <constraint firstItem="4P3-Jx-1cn" firstAttribute="centerX" secondItem="B2p-eP-4rE" secondAttribute="centerX" id="gmT-sJ-ocv"/>
+                            <constraint firstItem="tzC-FC-nhn" firstAttribute="top" secondItem="j4v-XP-7dS" secondAttribute="bottom" constant="214" id="idB-dV-Wfj"/>
                             <constraint firstItem="4P3-Jx-1cn" firstAttribute="top" secondItem="LKo-Vt-ceE" secondAttribute="bottom" constant="32" id="l3g-IS-uEV"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="continueButton" destination="j4v-XP-7dS" id="Ynl-fn-Dj5"/>
+                        <outlet property="continueLabel" destination="j4v-XP-7dS" id="or5-sB-WIu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OgR-UE-PZ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-475" y="311"/>
+            <point key="canvasLocation" x="-460" y="144"/>
         </scene>
         <!--Stats View Controller-->
         <scene sceneID="Tzz-U4-Vji">

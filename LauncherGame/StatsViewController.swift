@@ -18,7 +18,7 @@ class StatsViewController: UIViewController {
         
         let statsDict = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Statistics",ofType: "plist")!)!
         distanceLabel.text = "\(statsDict["TotalDistance"] as! Int)"
-        failureLabel.text = "\(statsDict["NumberOfFails"])"
+        failureLabel.text = "\(statsDict["NumberOfFails"] as! Int)"
        
 
         

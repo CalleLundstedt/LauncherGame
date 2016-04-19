@@ -3,9 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>Classes</key>
-	<dict>
-		<key>Newbie</key>
+	<array>
 		<dict>
+			<key>Name</key>
+			<string>Newbie</string>
+			<key>CurrentLevel</key>
+			<integer>0</integer>
 			<key>AirResistance</key>
 			<real>0.3</real>
 			<key>Restitution</key>
@@ -15,8 +18,11 @@
 			<key>Unlocked</key>
 			<true/>
 		</dict>
-		<key>Fitness</key>
 		<dict>
+			<key>Name</key>
+			<string>Fitness</string>
+			<key>CurrentLevel</key>
+			<integer>1</integer>
 			<key>AirResistance</key>
 			<real>0.2</real>
 			<key>Restitution</key>
@@ -26,6 +32,6 @@
 			<key>Unlocked</key>
 			<false/>
 		</dict>
-	</dict>
+	</array>
 </dict>
 </plist>
