@@ -17,6 +17,7 @@ class GameScene: SKScene {
     var groundLayer = SKSpriteNode()
     var backgroundLayer = SKSpriteNode()
     var houseLayer = SKSpriteNode()
+    var gymNode = SKSpriteNode()
     let cameraNode:SKCameraNode = SKCameraNode()
     var distanceLabel: UILabel
     var mainCharNode:SKSpriteNode
@@ -25,6 +26,7 @@ class GameScene: SKScene {
     
     let weaponPower: CGFloat
     var mainChar:MainCharacter
+    var currentChar: String
     var playableRect: CGRect
     var lastUpdateTime: NSTimeInterval = 0.0, dt: NSTimeInterval = 0
     var inAir: Bool = false, gameOver: Bool = false, pastMid: Bool = false
@@ -36,19 +38,23 @@ class GameScene: SKScene {
     
     let yConstraint: SKConstraint, distanceConstraint: SKConstraint
     
-    init(size: CGSize, label: UILabel, level: Int) {
+    init(size: CGSize, label: UILabel, level: Int, character: String) {
         let maxAspectRatio:CGFloat = 16.0/9.0
         let playableHeight = size.width / maxAspectRatio
         let playableMargin = (size.height-playableHeight)/2.0
         playableRect = CGRect(x: 0, y: playableMargin, width: size.width, height: playableHeight)
-        let main = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Characters", ofType: "plist")!)!
+        
+        
+        let main = getDictionary("Characters")
         let mainClass = main["Classes"] as! NSArray
         mainChar = MainCharacter(dictionary: mainClass[0] as! NSDictionary)
-        mainCharNode = SKSpriteNode(imageNamed: mainChar.name)
+        mainCharNode = SKSpriteNode(imageNamed: character)
+        
         yRange = SKRange(constantValue: CGRectGetMidY(playableRect)-250)
         rangeToMain = SKRange(constantValue: 0)
         distanceConstraint = SKConstraint.distance(rangeToMain, toNode: mainCharNode)
         yConstraint = SKConstraint.positionY(yRange)
+        currentChar = character
         
         currentLevel = level
         distance = 0
@@ -65,8 +71,7 @@ class GameScene: SKScene {
 
     override func didMoveToView(view: SKView) {
         
-        print("hej")
-        let config = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Levels",ofType: "plist")!)!
+        let config = getDictionary("Levels")
         let levels = config["Levels"] as! [[String:AnyObject]]
         if currentLevel >= levels.count {
             currentLevel = 0
@@ -103,6 +108,14 @@ class GameScene: SKScene {
         addChild(cameraNode)
         cameraNode.constraints = [yConstraint]
         cameraPositionX = cameraNode.position.x
+        
+        gymNode = SKSpriteNode(imageNamed: "gym")
+        gymNode.size.height = gymNode.size.height*2
+        gymNode.size.width = gymNode.size.width*2
+        gymNode.position = CGPoint(x: CGFloat(distanceToWin)+gymNode.size.width, y: CGRectGetMinY(playableRect)+gymNode.size.height/2)
+        gymNode.zPosition = 10
+        addChild(gymNode)
+        
         
         arrow.anchorPoint = CGPointMake(0,0.5)
         arrow.zPosition = 10
@@ -150,18 +163,24 @@ class GameScene: SKScene {
         
         if(inAir && !gameOver) {
             distance = Int(mainCharNode.position.x - mainCharStartingPoint)
+            distanceLabel.text = "\(distance)"
             if(mainCharNode.physicsBody!.velocity <= CGVector(dx: 30, dy: 10) && mainCharNode.position.y <= 320) {
                 gameOver = true
                 mainCharNode.physicsBody!.dynamic = false
                 print("Game over! Distance: \(distance)")
             }
-            if distance >= distanceToWin {
-                distanceLabel.text = "\(distance)"
-                let newScene = GameScene(size:size, label: distanceLabel, level: currentLevel+1)
-                view!.presentScene(newScene, transition: SKTransition.flipVerticalWithDuration(0.5))
+            if distance >= distanceToWin  {
+                gameOver = true
+                distanceLabel.text = "\(distanceToWin)"
+                mainCharNode.physicsBody?.dynamic = false
+                let moveToGym = SKAction.moveTo(gymNode.position, duration: 0.3)
+                let hideMain = SKAction.runBlock({self.mainCharNode.hidden = true})
+                let wait = SKAction.waitForDuration(5)
+                let newSceneAction = SKAction.runBlock(nextScene)
+                saveToPlist(distance, won: true, plist: "Statistics")
+                mainCharNode.runAction(SKAction.sequence([moveToGym,hideMain,wait,newSceneAction]))
             }
         }
-        distanceLabel.text = "\(distance)"
         scrollBackground()
     }
     
@@ -213,7 +232,7 @@ class GameScene: SKScene {
             let startingVelocity = CGVectorMake((π/2-angle)*weaponPower, angle*weaponPower)
             arrow.removeFromParent()
         
-            mainCharNode.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: mainChar.name), size: mainCharNode.size)
+            mainCharNode.physicsBody = SKPhysicsBody(circleOfRadius: mainCharNode.size.width/2)
             mainCharNode.physicsBody?.mass = mainChar.mass
             mainCharNode.physicsBody?.restitution = mainChar.restitution
             mainCharNode.physicsBody?.linearDamping = mainChar.airResistance
@@ -279,5 +298,10 @@ class GameScene: SKScene {
                 house.position.x += 3*house.size.width
             }
         }
+    }
+    
+    func nextScene() -> Void {
+        let newScene = GameScene(size:size, label: distanceLabel, level: currentLevel+1, character: currentChar)
+        view!.presentScene(newScene, transition: SKTransition.flipVerticalWithDuration(0.5))
     }
 }

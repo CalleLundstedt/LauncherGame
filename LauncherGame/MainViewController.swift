@@ -9,46 +9,71 @@
 import UIKit
 
 class MainViewController: UIViewController {
+
     
     @IBOutlet weak var continueButton: UIButton!
-    var mainClass: String = ""
+    
+    var mainCharName: String = "Newbie"
+    var mainCurrentLevel: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if !checkCurrent() {
-            continueButton.alpha = 0.4
             continueButton.enabled = false
         }
         
+        createPlist("Statistics")
+        createPlist("Levels")
+        createPlist("Characters")
         
+        
+
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "continueGame" {
+            if let destinationViewController = segue.destinationViewController as? GameViewController {
+                destinationViewController.currentClass = mainCharName
+                destinationViewController.currentLevel = mainCurrentLevel
+            }
+        }
+    }
+    
     func checkCurrent() -> Bool {
-        
-        let charDict = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Characters", ofType: "plist")!)!
-        
-        let classes = charDict["Classes"] as! NSArray
-        for i in classes {
-            if (i["CurrentLevel"] as! Int) > 0 {
-                mainClass = i["Name"]
+        let characterDict = getDictionary("Characters")
+        let characterArray = characterDict["Classes"] as! NSArray
+        for character in characterArray {
+           let curr = character as! NSDictionary
+            if (curr["CurrentLevel"] as! Int) > 0 {
+                mainCharName = curr["Name"] as! String
+                mainCurrentLevel = curr["CurrentLevel"] as! Int
                 return true
             }
         }
         return false
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "continueGame" {
-            if let destinationViewController = segue.destinationViewController as? DestinationViewController {
-                destinationViewController.data = data
-            }
+    func createPlist(plistName: String) {
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray
+        let documentsDirectory = paths.objectAtIndex(0) as! NSString
+        let path = documentsDirectory.stringByAppendingPathComponent("\(plistName).plist")
+        let fileManager = NSFileManager.defaultManager()
         
+        if(!fileManager.fileExistsAtPath(path)) {
+            if let bundlePath = NSBundle.mainBundle().pathForResource(plistName, ofType: "plist") {
+                do {
+                    try fileManager.copyItemAtPath(bundlePath, toPath: path)
+                } catch {
+                    print(error)
+                }
+            }
         }
     }
 }
+

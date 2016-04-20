@@ -8,7 +8,7 @@
 			<key>Name</key>
 			<string>Newbie</string>
 			<key>CurrentLevel</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>AirResistance</key>
 			<real>0.3</real>
 			<key>Restitution</key>
@@ -22,7 +22,7 @@
 			<key>Name</key>
 			<string>Fitness</string>
 			<key>CurrentLevel</key>
-			<integer>1</integer>
+			<integer>0</integer>
 			<key>AirResistance</key>
 			<real>0.2</real>
 			<key>Restitution</key>
