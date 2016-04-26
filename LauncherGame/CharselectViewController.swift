@@ -7,13 +7,25 @@
 //
 
 import UIKit
+import SpriteKit
 
 class CharselectViewController: UIViewController {
 
+    @IBOutlet weak var chooseButton: UIButton!
+    let scene = CharselectScene(size: CGSize(width: 1536, height: 2048))
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let skView = self.view as! SKView
+        
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        skView.ignoresSiblingOrder = true
+        
+        scene.scaleMode = .AspectFill
+        skView.presentScene(scene)
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,15 +33,28 @@ class CharselectViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return [UIInterfaceOrientationMask.Portrait]
     }
-    */
-
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "startGame" {
+            if let destinationViewController = segue.destinationViewController as? GameViewController {
+                destinationViewController.currentClass = scene.middleChar.name
+                destinationViewController.currentLevel = scene.middleChar.currentLevel
+            }
+        }
+        
+    }
+    
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if identifier == "startGame" {
+            if !scene.middleChar.unlocked {
+                return false
+            }
+        }
+        return true
+    }
+    
 }

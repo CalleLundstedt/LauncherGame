@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D0110F5C1CBF943600E95BDC /* Levels.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0110F5B1CBF943600E95BDC /* Levels.plist */; };
-		D0110F671CC4219400E95BDC /* Characters.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0110F661CC4219400E95BDC /* Characters.plist */; };
-		D0110F691CC4D7F700E95BDC /* Statistics.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0110F681CC4D7F700E95BDC /* Statistics.plist */; };
 		D0110F6B1CC4E34A00E95BDC /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0110F6A1CC4E34A00E95BDC /* StatsViewController.swift */; };
 		D0110F731CC66DC900E95BDC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0110F721CC66DC900E95BDC /* MainViewController.swift */; };
 		D0110F771CC797D500E95BDC /* CharselectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0110F761CC797D500E95BDC /* CharselectViewController.swift */; };
 		D0110F7C1CC7B46000E95BDC /* CharselectScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0110F7B1CC7B46000E95BDC /* CharselectScene.swift */; };
+		D0110F7E1CC8B73200E95BDC /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0110F7D1CC8B73200E95BDC /* Level.swift */; };
+		D0110F801CC8B9D300E95BDC /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0110F7F1CC8B9D300E95BDC /* Statistics.swift */; };
 		D01A07D21CB3CD980036A41F /* MainCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01A07D11CB3CD980036A41F /* MainCharacter.swift */; };
 		D05AA32E1CBED6E500378553 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05AA32C1CBED6E500378553 /* Main.storyboard */; };
 		D0F6C2C21CA9402800E89E7D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6C2C11CA9402800E89E7D /* AppDelegate.swift */; };
@@ -25,13 +24,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D0110F5B1CBF943600E95BDC /* Levels.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Levels.plist; sourceTree = "<group>"; };
-		D0110F661CC4219400E95BDC /* Characters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Characters.plist; sourceTree = "<group>"; };
-		D0110F681CC4D7F700E95BDC /* Statistics.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Statistics.plist; sourceTree = "<group>"; };
 		D0110F6A1CC4E34A00E95BDC /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		D0110F721CC66DC900E95BDC /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D0110F761CC797D500E95BDC /* CharselectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharselectViewController.swift; sourceTree = "<group>"; };
 		D0110F7B1CC7B46000E95BDC /* CharselectScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharselectScene.swift; sourceTree = "<group>"; };
+		D0110F7D1CC8B73200E95BDC /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
+		D0110F7F1CC8B9D300E95BDC /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
 		D01A07D11CB3CD980036A41F /* MainCharacter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainCharacter.swift; path = ../MainCharacter.swift; sourceTree = "<group>"; };
 		D05AA32D1CBED6E500378553 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D0F6C2BE1CA9402800E89E7D /* LauncherGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LauncherGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,7 +38,7 @@
 		D0F6C2C71CA9402800E89E7D /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		D0F6C2CC1CA9402800E89E7D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0F6C2CF1CA9402800E89E7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		D0F6C2D11CA9402800E89E7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = LauncherGame/Info.plist; sourceTree = "<group>"; };
+		D0F6C2D11CA9402800E89E7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0F6C2D71CA9C23100E89E7D /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,18 +53,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D0110F651CC4216B00E95BDC /* Plists */ = {
-			isa = PBXGroup;
-			children = (
-				D0F6C2D11CA9402800E89E7D /* Info.plist */,
-				D0110F681CC4D7F700E95BDC /* Statistics.plist */,
-				D0110F5B1CBF943600E95BDC /* Levels.plist */,
-				D0110F661CC4219400E95BDC /* Characters.plist */,
-			);
-			name = Plists;
-			path = ..;
-			sourceTree = "<group>";
-		};
 		D0110F781CC7B41400E95BDC /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,13 +62,23 @@
 			name = Scenes;
 			sourceTree = "<group>";
 		};
+		D0110F811CC8F19E00E95BDC /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				D0110F7D1CC8B73200E95BDC /* Level.swift */,
+				D01A07D11CB3CD980036A41F /* MainCharacter.swift */,
+				D0110F7F1CC8B9D300E95BDC /* Statistics.swift */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
 		D05AA3291CBEB30F00378553 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				D0F6C2C71CA9402800E89E7D /* GameViewController.swift */,
+				D0110F761CC797D500E95BDC /* CharselectViewController.swift */,
 				D0110F6A1CC4E34A00E95BDC /* StatsViewController.swift */,
 				D0110F721CC66DC900E95BDC /* MainViewController.swift */,
-				D0110F761CC797D500E95BDC /* CharselectViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -106,15 +102,15 @@
 		D0F6C2C01CA9402800E89E7D /* LauncherGame */ = {
 			isa = PBXGroup;
 			children = (
+				D0110F811CC8F19E00E95BDC /* Objects */,
 				D0110F781CC7B41400E95BDC /* Scenes */,
 				D05AA3291CBEB30F00378553 /* ViewControllers */,
-				D0110F651CC4216B00E95BDC /* Plists */,
 				D0F6C2D71CA9C23100E89E7D /* Utils.swift */,
-				D01A07D11CB3CD980036A41F /* MainCharacter.swift */,
 				D0F6C2C11CA9402800E89E7D /* AppDelegate.swift */,
 				D05AA32C1CBED6E500378553 /* Main.storyboard */,
 				D0F6C2CC1CA9402800E89E7D /* Assets.xcassets */,
 				D0F6C2CE1CA9402800E89E7D /* LaunchScreen.storyboard */,
+				D0F6C2D11CA9402800E89E7D /* Info.plist */,
 			);
 			path = LauncherGame;
 			sourceTree = "<group>";
@@ -178,10 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0110F671CC4219400E95BDC /* Characters.plist in Resources */,
-				D0110F691CC4D7F700E95BDC /* Statistics.plist in Resources */,
 				D05AA32E1CBED6E500378553 /* Main.storyboard in Resources */,
-				D0110F5C1CBF943600E95BDC /* Levels.plist in Resources */,
 				D0F6C2D01CA9402800E89E7D /* LaunchScreen.storyboard in Resources */,
 				D0F6C2CD1CA9402800E89E7D /* Assets.xcassets in Resources */,
 			);
@@ -196,12 +189,14 @@
 			files = (
 				D0110F731CC66DC900E95BDC /* MainViewController.swift in Sources */,
 				D0F6C2C61CA9402800E89E7D /* GameScene.swift in Sources */,
+				D0110F801CC8B9D300E95BDC /* Statistics.swift in Sources */,
 				D0F6C2C81CA9402800E89E7D /* GameViewController.swift in Sources */,
 				D01A07D21CB3CD980036A41F /* MainCharacter.swift in Sources */,
 				D0F6C2C21CA9402800E89E7D /* AppDelegate.swift in Sources */,
 				D0110F6B1CC4E34A00E95BDC /* StatsViewController.swift in Sources */,
 				D0110F7C1CC7B46000E95BDC /* CharselectScene.swift in Sources */,
 				D0110F771CC797D500E95BDC /* CharselectViewController.swift in Sources */,
+				D0110F7E1CC8B73200E95BDC /* Level.swift in Sources */,
 				D0F6C2D81CA9C23100E89E7D /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

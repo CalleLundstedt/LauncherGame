@@ -16,13 +16,20 @@ class StatsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        distanceLabel.text = "\(loadFromPlist("TotalDistance", plist: "Statistics") as! Int)"
-        failureLabel.text = "\(loadFromPlist("TotalPlays", plist: "Statistics") as! Int)"
+        let stats = loadStats()
+        
+        distanceLabel.text = "\(stats!.totalDistance)"
+        failureLabel.text = "\(stats!.totalFails)"
+    
         
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
+    }
+    
+    func loadStats() -> Statistics? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Statistics.ArchiveURL.path!) as? Statistics
     }
 }
