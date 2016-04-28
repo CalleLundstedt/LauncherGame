@@ -22,6 +22,7 @@ class GameScene: SKScene {
     var distanceLabel: UILabel
     var mainCharNode:SKSpriteNode
     var gameState: GameState
+    var randomNumberForSpawns: CGFloat
     
     var cameraPositionX: CGFloat = 0
     
@@ -29,11 +30,12 @@ class GameScene: SKScene {
     let mainChar: MainCharacter
     var currentChar: String
     var playableRect: CGRect
-    var lastUpdateTime: NSTimeInterval = 0.0, dt: NSTimeInterval = 0
-    var inAir: Bool = false, gameOver: Bool = false, pastMid: Bool = false
+    var pastMid: Bool = false
     var distance: Int
     var mainCharStartingPoint: CGFloat = 0
-    var numberOfLifts: Int = 100
+    var mainCharDistanceSinceLast: CGFloat = 1
+    var calculateProbability: CGFloat = 0
+    var numberOfLifts: Int = 5
     
     var rangeToMain: SKRange
     let distanceConstraint: SKConstraint
@@ -50,6 +52,7 @@ class GameScene: SKScene {
         rangeToMain = SKRange(constantValue: 0)
         distanceConstraint = SKConstraint.distance(rangeToMain, toNode: mainCharNode)
         currentChar = character
+        randomNumberForSpawns = CGFloat(arc4random_uniform(3000))
         
         currentLevel = level
         distance = 0
@@ -76,7 +79,7 @@ class GameScene: SKScene {
         
         mainCharNode.position = CGPoint(x: CGRectGetMinX(playableRect)+mainCharNode.size.width,
             y: CGRectGetMinY(playableRect)+mainCharNode.size.height/2)
-        mainCharNode.zPosition = 11
+        mainCharNode.zPosition = 12
         mainCharStartingPoint = mainCharNode.position.x
         addChild(mainCharNode)
         
@@ -96,6 +99,15 @@ class GameScene: SKScene {
         self.camera = cameraNode
         addChild(cameraNode)
         cameraPositionX = cameraNode.position.x
+        
+        for i in 1...5 {
+            let dumbbellNode = SKSpriteNode(imageNamed: "dumbbell")
+            dumbbellNode.size = CGSize(width: dumbbellNode.size.width*1.2, height: dumbbellNode.size.height*1.2)
+            dumbbellNode.position = CGPoint(x: dumbbellNode.size.width-playableRect.size.width/2,y: playableRect.size.height/1.4-(dumbbellNode.size.height + CGFloat(i)*dumbbellNode.size.height*2))
+            dumbbellNode.zPosition = 11
+            dumbbellNode.name = "dumb\(i)"
+            cameraNode.addChild(dumbbellNode)
+        }
         
         gymNode = SKSpriteNode(imageNamed: "gym")
         gymNode.size.height = gymNode.size.height*2
@@ -135,35 +147,30 @@ class GameScene: SKScene {
     }
    
     override func update(currentTime: CFTimeInterval) {
-        if lastUpdateTime > 0 {
-            dt = currentTime - lastUpdateTime
-        } else {
-            dt = 0
-        }
-        lastUpdateTime = currentTime
         
         if mainCharNode.position.x > CGRectGetMidX(playableRect) && !pastMid {
             pastMid = true
             cameraNode.constraints = [distanceConstraint]
         }
         
+        mainCharDistanceSinceLast = mainCharNode.position.x-calculateProbability
+        
         if pastMid {
-            createClouds()
+            createRandoms()
         }
+        checkCollisions()
         
         if(gameState == GameState.InAir) {
             distance = Int(mainCharNode.position.x - mainCharStartingPoint)
             distanceLabel.text = "\(distance)"
             if(mainCharNode.physicsBody!.velocity <= CGVector(dx: 30, dy: 10) && mainCharNode.position.y <= 320) {
-                gameState = .GameOver
                 endGame(false)
             }
             if distance >= distanceToWin  {
-                gameState = .GameOver
                 endGame(true)
             }
         }
-        scrollBackground()
+       scrollBackground()
     }
     
 
@@ -224,24 +231,34 @@ class GameScene: SKScene {
 
         case .InAir:
             if numberOfLifts > 0 {
+                cameraNode.childNodeWithName("dumb\(numberOfLifts)")?.alpha = 0.5
                 numberOfLifts -= 1
                 mainCharNode.physicsBody?.applyImpulse(CGVectorMake(1000, 1000))
             }
-        default:
-            break
+            
+        case .GameWon:
+            changeLevel(1)
+            
+        case .GameOver:
+            changeLevel(0)
         }
         
     }
     
-    func createClouds() {
-        if arc4random_uniform(1000) <= 40 {
-            let cloud = SKSpriteNode(imageNamed: "cloud")
-            cloud.name = "cloud"
-            cloud.alpha = randomAlpha()
-            cloud.position.x = mainCharNode.position.x + playableRect.size.width + cloud.size.width
-            cloud.position.y = CGFloat(arc4random_uniform(UInt32(playableRect.size.height)) + UInt32(playableRect.size.height))
-            backgroundLayer.addChild(cloud)
+    
+    func createRandoms() {
+        if randomNumberForSpawns <= mainCharDistanceSinceLast {
+            let spawn = getRandomSpawn()
+            spawn.position.x = mainCharNode.position.x + playableRect.size.width + spawn.size.width
+            spawn.position.y = CGRectGetMinY(playableRect) + spawn.size.height/2
+            spawn.zPosition = 11
+            spawn.name = "spawn"
+            mainCharDistanceSinceLast = 1
+            calculateProbability = CGFloat(distance)
+            randomNumberForSpawns = CGFloat(arc4random_uniform(3000))
+            addChild(spawn)
         }
+        
     }
     
     func createGround() -> SKSpriteNode {
@@ -274,6 +291,17 @@ class GameScene: SKScene {
         return houseLayer
     }
     
+    func checkCollisions() {
+        enumerateChildNodesWithName("spawn") {
+            node, _ in
+            let spawn = node as! RandomSpawn
+            if self.mainCharNode.intersectsNode(spawn) {
+                self.mainCharNode.physicsBody?.applyImpulse(CGVectorMake(spawn.xBoost, spawn.yBoost))
+                spawn.removeFromParent()
+            }
+        }
+    }
+    
     func scrollBackground() {
         groundLayer.enumerateChildNodesWithName("ground") {
             node, _ in
@@ -292,15 +320,8 @@ class GameScene: SKScene {
         }
     }
     
-    func nextScene() -> Void {
-        let newScene = GameScene(size:size, label: distanceLabel, level: currentLevel+1, character: currentChar)
-        newScene.scaleMode = .AspectFill
-        
-        view!.presentScene(newScene, transition: SKTransition.flipVerticalWithDuration(0.5))
-    }
-    
-    func changeLevel() {
-        let newScene = GameScene(size: size, label: distanceLabel, level: currentLevel+1, character: currentChar)
+    func changeLevel(level: Int) {
+        let newScene = GameScene(size: size, label: distanceLabel, level: currentLevel+level, character: currentChar)
         newScene.scaleMode = scaleMode
         
         view!.presentScene(newScene)
@@ -309,7 +330,7 @@ class GameScene: SKScene {
     func startMessage() {
         let background = SKSpriteNode(imageNamed: "infobox")
         background.size = CGSize(width: 3*playableRect.width/4, height: 3*playableRect.height/4)
-        background.position = CGPoint(x: CGRectGetMidX(playableRect), y: CGRectGetMidY(playableRect)-200)
+        background.position = CGPoint(x: CGRectGetMidX(playableRect), y: CGRectGetMidY(playableRect)/3+background.size.height/2)
         background.name = "startBackground"
         background.zPosition = 99
         
@@ -340,39 +361,71 @@ class GameScene: SKScene {
     }
     
     func endGame(won: Bool) {
-        gameOver = true
         mainCharNode.physicsBody?.dynamic = false
+        gameState = GameState.GameOver
         saveStats(distance, won: won)
         
+        
+        if won {
+            let moveToGym = SKAction.moveTo(gymNode.position, duration: 0.3)
+            let hideMain = SKAction.runBlock({self.mainCharNode.hidden = true})
+            let endMessage = SKAction.runBlock({self.endMessage(won)})
+        
+            mainCharNode.runAction(SKAction.sequence([moveToGym,hideMain, endMessage]))
+        } else {
+            endMessage(won)
+        }
+        
+    }
+    
+    func endMessage(won: Bool) {
         let background = SKSpriteNode(imageNamed: "infobox")
         background.size = CGSize(width: 3*playableRect.width/4, height: 3*playableRect.height/4)
-        background.position = CGPoint(x: CGRectGetMidX(playableRect), y: -playableRect.height)
+        background.position.y = CGRectGetMidY(playableRect)-playableRect.height
         background.zPosition = 99
-        
+            
         let endLabel1 = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
         let endLabel2 = SKLabelNode()
-        
+            
         endLabel1.fontSize = 150
-        endLabel2.fontSize = 120
+        endLabel2.fontSize = 100
+        
+        endLabel1.position = CGPoint(x: 0, y: 200)
+        endLabel2.position = CGPoint(x: 0, y: -400)
+        endLabel1.zPosition = 100
+        endLabel2.zPosition = 100
+        
+        let changeState: SKAction
         
         if won {
             distanceLabel.text = "\(distanceToWin)"
             saveLevel(mainChar.name, level: currentLevel+1)
-            
+            background.position.x = gymNode.position.x
+                
             endLabel1.text = "You won!"
             endLabel2.text = "Touch anywhere to start next level"
             
+            changeState = SKAction.runBlock({ self.gameState = GameState.GameWon})
+                
+            background.addChild(endLabel1)
+            background.addChild(endLabel2)
+        } else {
+            endLabel1.text = "You lost!"
+            endLabel2.text = "Touch anywhere to try again"
+            background.position.x = mainCharNode.position.x
             
-           
-            
-            
-            
-            let moveToGym = SKAction.moveTo(gymNode.position, duration: 0.3)
-            let hideMain = SKAction.runBlock({self.mainCharNode.hidden = true})
-            let wait = SKAction.waitForDuration(2)
-            let newSceneAction = SKAction.runBlock(changeLevel)
-            mainCharNode.runAction(SKAction.sequence([moveToGym,hideMain,wait,newSceneAction]))
+            changeState = SKAction.runBlock({self.gameState = GameState.GameOver})
+                
+            background.addChild(endLabel1)
+            background.addChild(endLabel2)
         }
+            
+        addChild(background)
+            
+        let moveToMid = SKAction.moveBy(CGVectorMake(0, playableRect.height), duration: 2)
+            
+        background.runAction(SKAction.sequence([moveToMid, SKAction.waitForDuration(1), changeState]))
     }
-
 }
+
+

@@ -79,7 +79,7 @@ class MainViewController: UIViewController {
         NSKeyedArchiver.archiveRootObject(zeroStats!, toFile: Statistics.ArchiveURL.path!)
         
         let newbChar = MainCharacter(name: "newbie", mass: 4, restitution: 0.8, airResistance: 0.3, unlocked: true, currentLevel: 1)
-        let fitnessChar = MainCharacter(name: "fitness", mass: 6, restitution: 0.5, airResistance: 0.2, unlocked: false, currentLevel: 2)
+        let fitnessChar = MainCharacter(name: "fitness", mass: 6, restitution: 0.5, airResistance: 0.2, unlocked: true, currentLevel: 2)
         let bodybuilderChar = MainCharacter(name: "bodybalder", mass: 8, restitution: 0.3, airResistance: 0.5, unlocked: true, currentLevel: 1)
         
         let allChars = [newbChar!, fitnessChar!, bodybuilderChar!]

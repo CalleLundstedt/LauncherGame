@@ -97,6 +97,7 @@ enum GameState {
     case StartingLevel
     case Started
     case InAir
+    case GameWon
     case GameOver
 }
 

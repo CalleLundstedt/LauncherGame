@@ -31,18 +31,21 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ky-GG-Nhe">
-                                <rect key="frame" x="283" y="420" width="34" height="30"/>
-                                <state key="normal" title="Start"/>
-                                <connections>
-                                    <action selector="startGame:" destination="gHF-Dy-DcW" eventType="touchUpInside" id="tD7-fY-HvO"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9K0-db-k7F">
-                                <rect key="frame" x="269" y="353" width="62" height="30"/>
+                                <rect key="frame" x="269.5" y="353" width="61" height="30"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                 <state key="normal" title="Continue"/>
                                 <connections>
                                     <segue destination="BV1-FR-VrT" kind="presentation" identifier="continueGame" id="xMg-6f-8BX"/>
+                                </connections>
+                            </button>
+                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ky-GG-Nhe">
+                                <rect key="frame" x="280" y="416" width="40" height="34"/>
+                                <state key="normal" title="Start">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="startGame:" destination="gHF-Dy-DcW" eventType="touchUpInside" id="tD7-fY-HvO"/>
                                 </connections>
                             </button>
                         </subviews>

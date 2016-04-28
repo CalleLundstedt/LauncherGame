@@ -10,8 +10,6 @@ import SpriteKit
 
 class CharselectScene: SKScene {
     
-    let rightArrow = SKSpriteNode(imageNamed: "rightarrow")
-    let leftArrow = SKSpriteNode(imageNamed: "rightarrow")
     let allCharsNode = SKSpriteNode()
     let moveRight: SKAction, moveLeft: SKAction
     
@@ -31,8 +29,8 @@ class CharselectScene: SKScene {
         let playableMargin = (size.width-playableWidth)/2.0
         playableRect = CGRect(x: playableMargin, y: 0, width: playableWidth, height: size.height)
         
-        moveRight = SKAction.moveBy(CGVectorMake(playableRect.width/2, 0), duration: 1)
-        moveLeft = SKAction.moveBy(CGVectorMake(-playableRect.width/2, 0), duration: 1)
+        moveRight = SKAction.moveBy(CGVectorMake(playableRect.width, 0), duration: 1)
+        moveLeft = SKAction.moveBy(CGVectorMake(-playableRect.width, 0), duration: 1)
         
         middleChar = loadChars()![0]
         
@@ -45,8 +43,17 @@ class CharselectScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
+        
+        let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(CharselectScene.swipedRight(_:)))
+        swipeRight.direction = .Right
+        view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(CharselectScene.swipedLeft(_:)))
+        swipeLeft.direction = .Left
+        view.addGestureRecognizer(swipeLeft)
+        
         let cropNode = SKCropNode()
-        let maskNode = SKSpriteNode(color: UIColor.whiteColor(), size: CGSize(width: playableRect.size.width/3, height: playableRect.size.width/3))
+        let maskNode = SKSpriteNode(color: UIColor.whiteColor(), size: CGSize(width: playableRect.size.width, height: playableRect.size.width/3))
         maskNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         maskNode.position = CGPoint(x: CGRectGetMidX(playableRect),y: 3*playableRect.size.height/4)
         cropNode.maskNode = maskNode
@@ -64,15 +71,6 @@ class CharselectScene: SKScene {
         unlockedLabel.fontSize = 100
         addChild(unlockedLabel)
         
-        
-        rightArrow.position = CGPoint(x: playableRect.width, y: 3*playableRect.size.height/4)
-        addChild(rightArrow)
-
-        leftArrow.zRotation = π
-        leftArrow.anchorPoint = CGPoint(x: 0, y: 0.5)
-        leftArrow.position = CGPoint(x: CGRectGetMinX(playableRect)+leftArrow.size.width, y: 3*playableRect.size.height/4)
-        addChild(leftArrow)
-        
         let charArray = loadChars()
         
         var i: CGFloat = 0
@@ -82,14 +80,14 @@ class CharselectScene: SKScene {
                 charNode.name = char.name
                 charNode.position = CGPoint(x: CGRectGetMidX(playableRect)+i, y: 3*playableRect.size.height/4)
                 allCharsNode.addChild(charNode)
-                i += playableRect.width/2
+                i += playableRect.width
             } else {
                 let charNode = SKSpriteNode(imageNamed: char.name)
                 charNode.alpha = 0.3
                 charNode.name = char.name
                 charNode.position = CGPoint(x: CGRectGetMidX(playableRect)+i, y: 3*playableRect.size.height/4)
                 allCharsNode.addChild(charNode)
-                i += playableRect.width/2
+                i += playableRect.width
 
             }
         }
@@ -99,30 +97,27 @@ class CharselectScene: SKScene {
         
     }
     
+    func swipedRight(sender:UISwipeGestureRecognizer) {
+        if allCharsNode.position.x < 0 && !movingRight {
+            movingRight = true
+            let falseAction = SKAction.runBlock({self.movingRight = false})
+            allCharsNode.runAction(SKAction.sequence([moveRight, falseAction]))
+        }
+    }
+    
+    func swipedLeft(sender:UISwipeGestureRecognizer) {
+        if !movingLeft {
+            movingLeft = true
+            let falseAction = SKAction.runBlock({self.movingLeft = false})
+            allCharsNode.runAction(SKAction.sequence([moveLeft,falseAction]))        }
+    }
+    
     override func update(currentTime: NSTimeInterval) {
         getMiddle()
        
         nameLabel.text = "Name: \(middleChar.name)"
         massLabel.text = "Mass: \(middleChar.mass)"
         unlockedLabel.text = "Unlocked: \(middleChar.unlocked)"
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let touch = touches.first! as UITouch
-        let touchLocation = touch.locationInNode(self)
-        
-        if rightArrow.containsPoint(touchLocation) && allCharsNode.position.x < 0 && !movingRight {
-            movingRight = true
-            let falseAction = SKAction.runBlock({self.movingRight = false})
-            allCharsNode.runAction(SKAction.sequence([moveRight, falseAction]))
-        }
-        
-        if leftArrow.containsPoint(touchLocation) && !movingLeft {
-            movingLeft = true
-            let falseAction = SKAction.runBlock({self.movingLeft = false})
-            allCharsNode.runAction(SKAction.sequence([moveLeft,falseAction]))
-        }
-        
     }
     
     func getMiddle() {
