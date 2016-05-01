@@ -60,7 +60,7 @@ class GameScene: SKScene {
         distanceLabel.text = "\(distance)"
         gameState = GameState.StartingLevel
         
-        weaponPower = 1000
+        weaponPower = 1500
         
         super.init(size: size)
     }
@@ -172,7 +172,6 @@ class GameScene: SKScene {
         }
        scrollBackground()
     }
-    
 
     
     func touchStart(touchPoint: CGPoint) {
@@ -236,10 +235,12 @@ class GameScene: SKScene {
                 mainCharNode.physicsBody?.applyImpulse(CGVectorMake(1000, 1000))
             }
             
+        case .GameOver: break
+            
         case .GameWon:
             changeLevel(1)
             
-        case .GameOver:
+        case .GameLost:
             changeLevel(0)
         }
         
@@ -321,10 +322,12 @@ class GameScene: SKScene {
     }
     
     func changeLevel(level: Int) {
-        let newScene = GameScene(size: size, label: distanceLabel, level: currentLevel+level, character: currentChar)
-        newScene.scaleMode = scaleMode
+        if currentLevel+level < loadLevels()!.count {
+            let newScene = GameScene(size: size, label: distanceLabel, level: currentLevel+level, character: currentChar)
+            newScene.scaleMode = scaleMode
         
-        view!.presentScene(newScene)
+            view!.presentScene(newScene)
+        }
     }
     
     func startMessage() {
@@ -362,9 +365,8 @@ class GameScene: SKScene {
     
     func endGame(won: Bool) {
         mainCharNode.physicsBody?.dynamic = false
-        gameState = GameState.GameOver
         saveStats(distance, won: won)
-        
+        gameState = GameState.GameOver
         
         if won {
             let moveToGym = SKAction.moveTo(gymNode.position, duration: 0.3)
@@ -381,7 +383,6 @@ class GameScene: SKScene {
     func endMessage(won: Bool) {
         let background = SKSpriteNode(imageNamed: "infobox")
         background.size = CGSize(width: 3*playableRect.width/4, height: 3*playableRect.height/4)
-        background.position.y = CGRectGetMidY(playableRect)-playableRect.height
         background.zPosition = 99
             
         let endLabel1 = SKLabelNode(fontNamed: "AvenirNext-DemiBold")
@@ -400,6 +401,7 @@ class GameScene: SKScene {
         if won {
             distanceLabel.text = "\(distanceToWin)"
             saveLevel(mainChar.name, level: currentLevel+1)
+            background.position.y = CGRectGetMidY(playableRect)-playableRect.height-100
             background.position.x = gymNode.position.x
                 
             endLabel1.text = "You won!"
@@ -413,8 +415,9 @@ class GameScene: SKScene {
             endLabel1.text = "You lost!"
             endLabel2.text = "Touch anywhere to try again"
             background.position.x = mainCharNode.position.x
+            background.position.y = CGRectGetMidY(playableRect)-cameraNode.position.y-playableRect.height
             
-            changeState = SKAction.runBlock({self.gameState = GameState.GameOver})
+            changeState = SKAction.runBlock({self.gameState = GameState.GameLost})
                 
             background.addChild(endLabel1)
             background.addChild(endLabel2)
@@ -425,7 +428,7 @@ class GameScene: SKScene {
         let moveToMid = SKAction.moveBy(CGVectorMake(0, playableRect.height), duration: 2)
             
         background.runAction(SKAction.sequence([moveToMid, SKAction.waitForDuration(1), changeState]))
-    }
+    } 
 }
 
 

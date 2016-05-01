@@ -12,14 +12,18 @@ class StatsViewController: UIViewController {
 
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var failureLabel: UILabel!
+    @IBOutlet weak var maxDistanceLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(red: 1, green: 99/255, blue: 53/255, alpha: 1)
+        
         
         let stats = loadStats()
         
         distanceLabel.text = "\(stats!.totalDistance)"
         failureLabel.text = "\(stats!.totalFails)"
+        maxDistanceLabel.text = "\(stats!.maxDistance)"
     
         
     }

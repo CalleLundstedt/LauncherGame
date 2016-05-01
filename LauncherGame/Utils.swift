@@ -42,6 +42,10 @@ func saveStats(distance: Int, won: Bool) {
     stats.totalDistance += distance
     stats.totalPlays += 1
     
+    if stats.maxDistance < distance {
+        stats.maxDistance = distance
+    }
+    
     if !won {
         stats.totalFails += 1
     }
@@ -97,8 +101,9 @@ enum GameState {
     case StartingLevel
     case Started
     case InAir
-    case GameWon
     case GameOver
+    case GameWon
+    case GameLost
 }
 
 

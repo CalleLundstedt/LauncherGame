@@ -75,22 +75,26 @@ class MainViewController: UIViewController {
     }
     
     func createData() {
-        let zeroStats = Statistics(totalPlays: 0, totalDistance: 0, totalFails: 0)
+        let zeroStats = Statistics(totalPlays: 0, totalDistance: 0, totalFails: 0, maxDistance: 0)
         NSKeyedArchiver.archiveRootObject(zeroStats!, toFile: Statistics.ArchiveURL.path!)
         
-        let newbChar = MainCharacter(name: "newbie", mass: 4, restitution: 0.8, airResistance: 0.3, unlocked: true, currentLevel: 1)
-        let fitnessChar = MainCharacter(name: "fitness", mass: 6, restitution: 0.5, airResistance: 0.2, unlocked: true, currentLevel: 2)
-        let bodybuilderChar = MainCharacter(name: "bodybalder", mass: 8, restitution: 0.3, airResistance: 0.5, unlocked: true, currentLevel: 1)
+        let newbChar = MainCharacter(name: "Newbie", mass: 4, restitution: 0.8, airResistance: 0.3, unlocked: true, currentLevel: 1)
+        let fitnessChar = MainCharacter(name: "Fitness", mass: 6, restitution: 0.5, airResistance: 0.2, unlocked: true, currentLevel: 1)
+        let bodybuilderChar = MainCharacter(name: "Bodybuilder", mass: 8, restitution: 0.3, airResistance: 0.5, unlocked: true, currentLevel: 1)
         
         let allChars = [newbChar!, fitnessChar!, bodybuilderChar!]
         NSKeyedArchiver.archiveRootObject(allChars, toFile: MainCharacter.ArchiveURL.path!)
         
         var allLevels: [Level] = []
         for i in 1...6 {
-            print(5000*i)
             let level = Level(levelNumber: i, distance: 5000*i)
             allLevels.append(level!)
         }
         NSKeyedArchiver.archiveRootObject(allLevels, toFile: Level.ArchiveURL.path!)
     }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return [UIInterfaceOrientationMask.Portrait]
+    }
+
 }

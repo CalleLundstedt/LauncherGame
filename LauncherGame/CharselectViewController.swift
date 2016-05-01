@@ -20,8 +20,6 @@ class CharselectViewController: UIViewController {
 
         let skView = self.view as! SKView
         
-        skView.showsFPS = true
-        skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         
         scene.scaleMode = .AspectFill
@@ -47,14 +45,4 @@ class CharselectViewController: UIViewController {
         }
         
     }
-    
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-        if identifier == "startGame" {
-            if !scene.middleChar.unlocked {
-                return false
-            }
-        }
-        return true
-    }
-    
 }

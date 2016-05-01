@@ -15,6 +15,7 @@ class Statistics: NSObject, NSCoding {
         static let totalPlaysKey = "totalPlays"
         static let totalDistanceKey = "totalDistance"
         static let totalFailsKey = "totalFails"
+        static let maxDistanceKey = "maxDistance"
     }
     
     static let DocumentsDirectory = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
@@ -23,11 +24,13 @@ class Statistics: NSObject, NSCoding {
     var totalPlays: Int
     var totalDistance: Int
     var totalFails: Int
+    var maxDistance: Int
     
-    init?(totalPlays: Int, totalDistance: Int, totalFails: Int) {
+    init?(totalPlays: Int, totalDistance: Int, totalFails: Int, maxDistance: Int) {
         self.totalPlays = totalPlays
         self.totalDistance = totalDistance
         self.totalFails = totalFails
+        self.maxDistance = maxDistance
         
         super.init()
     }
@@ -36,14 +39,16 @@ class Statistics: NSObject, NSCoding {
         aCoder.encodeObject(totalPlays, forKey: PropertyKey.totalPlaysKey)
         aCoder.encodeObject(totalDistance, forKey: PropertyKey.totalDistanceKey)
         aCoder.encodeObject(totalFails, forKey: PropertyKey.totalFailsKey)
+        aCoder.encodeObject(maxDistance, forKey: PropertyKey.maxDistanceKey)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         let totalPlays = aDecoder.decodeObjectForKey(PropertyKey.totalPlaysKey) as! Int
         let totalDistance = aDecoder.decodeObjectForKey(PropertyKey.totalDistanceKey) as! Int
         let totalFails = aDecoder.decodeObjectForKey(PropertyKey.totalFailsKey) as! Int
+        let maxDistance = aDecoder.decodeObjectForKey(PropertyKey.maxDistanceKey) as! Int
         
-        self.init(totalPlays: totalPlays, totalDistance: totalDistance, totalFails: totalFails)
+        self.init(totalPlays: totalPlays, totalDistance: totalDistance, totalFails: totalFails, maxDistance: maxDistance)
     }
 }
 
