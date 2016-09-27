@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="gHF-Dy-DcW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="gHF-Dy-DcW">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -45,13 +45,12 @@
                                     <segue destination="Qrf-Fh-fwH" kind="show" id="3ir-Gf-qTk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9K0-db-k7F" userLabel="Continuebutton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9K0-db-k7F" userLabel="Continuebutton" customClass="HTPressableButton">
                                 <rect key="frame" x="156" y="297" width="289" height="89"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="89" id="6Wz-OJ-BI6"/>
                                     <constraint firstAttribute="width" constant="289" id="WsS-x3-G4w"/>
                                 </constraints>
-                                <state key="normal" image="continuebutton"/>
                                 <connections>
                                     <segue destination="BV1-FR-VrT" kind="presentation" identifier="continueGame" id="xMg-6f-8BX"/>
                                 </connections>
@@ -74,7 +73,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Main Menu" id="hnL-pX-Iek"/>
                     <connections>
-                        <outlet property="continueButton" destination="9K0-db-k7F" id="bE9-xm-zWv"/>
+                        <outlet property="continueButton" destination="9K0-db-k7F" id="sl1-E4-2rO"/>
                         <segue destination="uOE-xq-Ic8" kind="presentation" identifier="selectChar" id="avO-9d-QZq"/>
                     </connections>
                 </viewController>
@@ -281,13 +280,12 @@
     <resources>
         <image name="backbutton" width="600" height="200"/>
         <image name="choosebutton" width="600" height="200"/>
-        <image name="continuebutton" width="600" height="200"/>
         <image name="mainmenu" width="1080" height="1920"/>
         <image name="startbutton" width="600" height="200"/>
         <image name="statsbutton" width="600" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="NBd-wH-e2m"/>
-        <segue reference="sZS-R5-dsi"/>
+        <segue reference="xMg-6f-8BX"/>
     </inferredMetricsTieBreakers>
 </document>
