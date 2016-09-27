@@ -10,9 +10,8 @@ import UIKit
 import HTPressableButton
 
 class MainViewController: UIViewController {
-
     
-    @IBOutlet weak var continueButton: HTPressableButton!
+    @IBOutlet weak var continueButton: UIButton!
     
     var mainCharName: String = "Newbie"
     var mainCurrentLevel: Int = 0
@@ -21,17 +20,15 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        continueButton = HTPressableButton(frame: continueButton.frame, buttonStyle: HTPressableButtonStyle.Rounded)
-        
         if loadChars() == nil {
             createData()
         }
      
-   //     continueButton.enabled = false
+        continueButton.enabled = false
         mainChars = loadChars()!
         for char in mainChars {
             if char.currentLevel > 1 {
-     //           continueButton.enabled = true
+                continueButton.enabled = true
                 mainCharName = char.name
                 mainCurrentLevel = char.currentLevel
             }

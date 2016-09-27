@@ -45,12 +45,13 @@
                                     <segue destination="Qrf-Fh-fwH" kind="show" id="3ir-Gf-qTk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9K0-db-k7F" userLabel="Continuebutton" customClass="HTPressableButton">
-                                <rect key="frame" x="156" y="297" width="289" height="89"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9K0-db-k7F" userLabel="Continuebutton">
+                                <rect key="frame" x="155.5" y="297" width="289" height="89"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="89" id="6Wz-OJ-BI6"/>
                                     <constraint firstAttribute="width" constant="289" id="WsS-x3-G4w"/>
                                 </constraints>
+                                <state key="normal" image="continuebutton"/>
                                 <connections>
                                     <segue destination="BV1-FR-VrT" kind="presentation" identifier="continueGame" id="xMg-6f-8BX"/>
                                 </connections>
@@ -73,7 +74,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Main Menu" id="hnL-pX-Iek"/>
                     <connections>
-                        <outlet property="continueButton" destination="9K0-db-k7F" id="sl1-E4-2rO"/>
+                        <outlet property="continueButton" destination="9K0-db-k7F" id="No7-qw-JZy"/>
                         <segue destination="uOE-xq-Ic8" kind="presentation" identifier="selectChar" id="avO-9d-QZq"/>
                     </connections>
                 </viewController>
@@ -280,6 +281,7 @@
     <resources>
         <image name="backbutton" width="600" height="200"/>
         <image name="choosebutton" width="600" height="200"/>
+        <image name="continuebutton" width="600" height="200"/>
         <image name="mainmenu" width="1080" height="1920"/>
         <image name="startbutton" width="600" height="200"/>
         <image name="statsbutton" width="600" height="200"/>
