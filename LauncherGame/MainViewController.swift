@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import HTPressableButton
+import SwiftyButton
 
 class MainViewController: UIViewController {
     

@@ -84,8 +84,10 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "Pods-LauncherGame/HTPressableButton.framework"
+  install_framework "Pods-LauncherGame/PureLayout.framework"
+  install_framework "Pods-LauncherGame/SwiftyButton.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "Pods-LauncherGame/HTPressableButton.framework"
+  install_framework "Pods-LauncherGame/PureLayout.framework"
+  install_framework "Pods-LauncherGame/SwiftyButton.framework"
 fi

@@ -4,6 +4,6 @@
 use_frameworks!
 
 target 'LauncherGame' do
-	pod 'HTPressableButton', '~> 1.3'
+	pod 'SwiftyButton', ‘0.4.0’
 end
 

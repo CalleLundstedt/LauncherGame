@@ -4,12 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>HTPressableButton.xcscheme</key>
+		<key>Pods-LauncherGame.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-LauncherGame.xcscheme</key>
+		<key>PureLayout.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftyButton.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>7FEF77C304F58B4306F448A2D383D419</key>
+		<key>0CD46240CF97EDBFF44EDFAA90D4D6FB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F8A95A2D538A40E19B8F40A957FDE776</key>
+		<key>BA7A5F83552D8D53AB156B7C0A92DC63</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F6908F0F4C3A9CFA13BAAF9A37C02F16</key>
 		<dict>
 			<key>primary</key>
 			<true/>

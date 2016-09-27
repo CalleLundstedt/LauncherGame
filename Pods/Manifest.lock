@@ -1,12 +1,15 @@
 PODS:
-  - HTPressableButton (1.3.3):
-    - HTPressableButton/All (= 1.3.3)
-  - HTPressableButton/All (1.3.3)
+  - PureLayout (3.0.2)
+  - SwiftyButton (0.4.0):
+    - SwiftyButton/CustomContent (= 0.4.0)
+  - SwiftyButton/CustomContent (0.4.0):
+    - PureLayout (~> 3.0)
 
 DEPENDENCIES:
-  - HTPressableButton (~> 1.3)
+  - SwiftyButton (= 0.4.0)
 
 SPEC CHECKSUMS:
-  HTPressableButton: 3109ba7972247ddbd387c8a22b0341b02369b31e
+  PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
+  SwiftyButton: fffcc0d82b2b5f9ec1681f20ee9c67bed0d5c73b
 
 COCOAPODS: 0.39.0

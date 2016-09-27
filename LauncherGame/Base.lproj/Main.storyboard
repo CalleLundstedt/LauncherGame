@@ -21,37 +21,80 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mainmenu" translatesAutoresizingMaskIntoConstraints="NO" id="K8R-Mh-t6c">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ky-GG-Nhe" userLabel="Startbutton">
+                            <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ky-GG-Nhe" userLabel="Startbutton" customClass="SwiftyButton" customModule="SwiftyButton">
                                 <rect key="frame" x="156" y="394" width="289" height="89"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="89" id="PG1-C9-yZD"/>
                                     <constraint firstAttribute="width" constant="289" id="ZNq-k9-1B1"/>
                                 </constraints>
-                                <state key="normal" image="startbutton">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <state key="normal" title="START"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" red="0.39444149270000001" green="0.84837737849999995" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="0.25339879119999997" green="0.54501822489999996" blue="0.62982772440000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowHeight">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="startGame:" destination="gHF-Dy-DcW" eventType="touchUpInside" id="tD7-fY-HvO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqP-u8-wgM" userLabel="Statsbutton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqP-u8-wgM" userLabel="Statsbutton" customClass="SwiftyButton" customModule="SwiftyButton">
                                 <rect key="frame" x="156" y="491" width="289" height="89"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="89" id="8pz-R7-3oJ"/>
                                     <constraint firstAttribute="width" constant="289" id="MVl-uv-JbA"/>
                                 </constraints>
-                                <state key="normal" image="statsbutton"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <state key="normal" title="STATS"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" red="0.39444149270000001" green="0.84837737849999995" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="0.25339879119999997" green="0.54501822489999996" blue="0.62982772440000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowHeight">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="Qrf-Fh-fwH" kind="show" id="3ir-Gf-qTk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9K0-db-k7F" userLabel="Continuebutton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9K0-db-k7F" userLabel="Continuebutton" customClass="SwiftyButton" customModule="SwiftyButton">
                                 <rect key="frame" x="155.5" y="297" width="289" height="89"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="89" id="6Wz-OJ-BI6"/>
                                     <constraint firstAttribute="width" constant="289" id="WsS-x3-G4w"/>
                                 </constraints>
-                                <state key="normal" image="continuebutton"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <state key="normal" title="CONTINUE"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" red="0.39444149268352463" green="0.84837737851512796" blue="0.98039215803146362" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="0.25339879118213887" green="0.54501822493225927" blue="0.62982772435897438" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowHeight">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="BV1-FR-VrT" kind="presentation" identifier="continueGame" id="xMg-6f-8BX"/>
                                 </connections>
@@ -130,13 +173,28 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEt-g4-jNl">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEt-g4-jNl" customClass="SwiftyButton" customModule="SwiftyButton">
                                 <rect key="frame" x="175" y="515" width="251" height="77"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="251" id="2tE-nc-ro5"/>
                                     <constraint firstAttribute="height" constant="77" id="jPO-Rf-X9F"/>
                                 </constraints>
-                                <state key="normal" title="Back" image="backbutton"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                <state key="normal" title="Back"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" red="0.39444149270000001" green="0.84837737849999995" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="0.25339879119999997" green="0.54501822489999996" blue="0.62982772440000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowHeight">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="25"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="gHF-Dy-DcW" kind="show" id="Mos-LB-HIu"/>
                                 </connections>
@@ -184,24 +242,52 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frx-VQ-tbM">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="frx-VQ-tbM" customClass="SwiftyButton" customModule="SwiftyButton">
                                 <rect key="frame" x="20" y="551" width="109" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="Cee-Pi-L3K"/>
                                     <constraint firstAttribute="width" constant="109" id="PjK-ej-e9q"/>
                                 </constraints>
-                                <state key="normal" image="backbutton"/>
+                                <state key="normal" title="BACK"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" red="0.39444149270000001" green="0.84837737849999995" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="0.25339879119999997" green="0.54501822489999996" blue="0.62982772440000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowHeight">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="gHF-Dy-DcW" kind="show" id="NBd-wH-e2m"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1eU-7c-XUW">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1eU-7c-XUW" customClass="SwiftyButton" customModule="SwiftyButton">
                                 <rect key="frame" x="474" y="551" width="106" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="JYg-WS-vuj"/>
                                     <constraint firstAttribute="width" constant="106" id="PbH-Ol-5Pr"/>
                                 </constraints>
-                                <state key="normal" image="choosebutton"/>
+                                <state key="normal" title="CHOOSE"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
+                                        <color key="value" red="0.39444149270000001" green="0.84837737849999995" blue="0.98039215800000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" red="0.25339879119999997" green="0.54501822489999996" blue="0.62982772440000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowHeight">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="BV1-FR-VrT" kind="presentation" identifier="startGame" id="sZS-R5-dsi"/>
                                 </connections>
@@ -279,15 +365,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="backbutton" width="600" height="200"/>
-        <image name="choosebutton" width="600" height="200"/>
-        <image name="continuebutton" width="600" height="200"/>
         <image name="mainmenu" width="1080" height="1920"/>
-        <image name="startbutton" width="600" height="200"/>
-        <image name="statsbutton" width="600" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="NBd-wH-e2m"/>
-        <segue reference="xMg-6f-8BX"/>
+        <segue reference="sZS-R5-dsi"/>
     </inferredMetricsTieBreakers>
 </document>
